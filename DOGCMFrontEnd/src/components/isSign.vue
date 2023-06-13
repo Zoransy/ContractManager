@@ -1,5 +1,10 @@
 <template>
+<!-- //合同签订-已签订合同 -->
+    
     <div>
+        <div v-for="(construct, index) in constructs" :key="index">
+            {{ construct }}
+        </div>
         <el-table
                 :data="tableData.filter(data => !search ||
                 data.contract_name.toLowerCase().includes(search.toLowerCase()))"
@@ -113,8 +118,17 @@ scope">
 
 <script>
     export default {
+        mounted() {
+            //alert("mount"+this.$url + '/contract/selectContractByType');
+            this.sendDataToBackend();
+            this.fetchConstructs(); // 在组件加载时获取 constructs 数据
+        },//钩子
+
+
+
         name: "isSign",
         data() {
+            //constructs = [];
             const generateData = () => {
                 const data = [];
                 this.$axios({
@@ -122,10 +136,12 @@ scope">
                     method: 'post',
                     data: {
                         // token: this.$store.state.token,
+                        id:this.$store.userName,
                         token: this.$store.state.token,
                         type: 'issign'
                         // page:this.$store.state
                     },
+                    //将请求数据对象转换为application/x-www-form-urlencoded格式的字符串。
                     transformRequest: [function (data) {
                         let ret = '';
                         for (let it in data) {
@@ -165,8 +181,55 @@ scope">
                     info: '',
                 },
             }
-        },
+        },  computed: {
+    constructs() {
+      return []; // 在 computed 属性中定义 constructs
+    }
+  },
+        
+
         methods: {
+            fetchConstructs() {
+                // 通过某种方式获取 constructs 数组数据，例如从后端接口获取
+                // 示例数据，实际情况中替换
+                //alert("11111111进入后端！"+this.$url + '/contract/selectContractByType')
+                this.constructs = ["Construct 1", "Construct 2", "Construct 3"];
+            },
+            sendDataToBackend() {
+                //console.log("SSSSSSSS");
+                //alert("SIGN进入后端！"+this.$url + '/contract/selectContractByType')
+                const data = {
+                    id: this.$store.userName,
+                    // token: this.$store.state.token,
+                    // type: 'issign'
+                };
+
+                this.$axios({
+                    url: this.$url + '/contract/selectContractByType',
+                    method: 'post',
+                    data: data,
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                .then(res => {
+                    //const contracts = res.data.data;
+
+                    this.constructs = res.data.data;
+                    
+                    
+                    // contracts.forEach((item, index) => {
+                    //     this.data.push({
+                    //         index: index + 1,
+                    //         date: item.beginTime,
+                    //         contract_name: item.name,
+                    //         id: item.id
+                    //     });
+                    // });
+                });
+                this.alert(this.constructs[0]);
+                // .catch(error => {
+                //     console.error(error);
+                // });
+            },
             handleEdit(index, row) {
                 this.dialog2Visible = true;
                 this.index = index;

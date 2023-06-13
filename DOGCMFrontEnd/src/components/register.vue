@@ -7,6 +7,11 @@
                 <el-input v-model="registerForm.name" placeholder="请输入用户名"></el-input>
             </el-form-item>
 
+            <el-form-item label="邮箱:" prop="email">
+                <el-input v-model="registerForm.email" placeholder="请输入邮箱"></el-input>
+            </el-form-item>
+
+
             <el-form-item label="密码：" prop="passwd">
                 <el-input v-model="registerForm.passwd" placeholder="请输入密码" show-password clearable></el-input>
             </el-form-item>
@@ -45,6 +50,7 @@
                 isLoading: false,
                 registerForm: {
                     name: '',
+                    email:'',
                     passwd: '',
                     passwdagain: ''
                 },
@@ -52,6 +58,11 @@
                     name: [
                         {
                             required: true, message: "请输入用户名", trigger: 'blur'
+                        },
+                    ],
+                    email: [//如果为空就显示message
+                        {
+                            required: true, message: "请输入email", trigger: 'blur'
                         },
                     ],
                     passwd: [
@@ -82,14 +93,16 @@
                 if (this.isLoading) {
                     this.text = ""
                 }
-
+                //获取到的是添加了ref="registerForm"属性的这个组件 前端判断
                 this.$refs["registerForm"].validate((valid) => {
                     if(valid) {
+                        //alert("valid"+this.$registerUrl);//http://localhost:10087/user/register
                         this.$axios({
                             url: this.$registerUrl,
                             method: 'post',
                             data: {
                                 user: this.registerForm.name,
+                                email: this.registerForm.email,//邮箱
                                 passwd: this.$md5(this.registerForm.passwd + this.$salt)
                             },
                             transformRequest: [function (data) {
@@ -102,11 +115,13 @@
                             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                         }).then(res => {
                             if (res.data.state === 0) {
+                                alert("qianduan 成功 "+this.$loginUrl);
                                 this.$axios({
                                     url: this.$loginUrl,
                                     method: 'post',
                                     data: {
                                         user: this.registerForm.name,
+                                        email: this.registerForm.email,
                                         passwd: this.$md5(this.registerForm.passwd + this.$salt)
                                     },
 
@@ -122,8 +137,10 @@
                                     //     'Content-Type': 'application/x-www-form-urlencoded'
                                     // }
                                 }).then(res => {
+                                    alert("后端 "+res.data.state);
                                     this.state = res.data.state;
                                     this.$store.state.userName = this.registerForm.name;
+                                    this.$store.state.email = this.registerForm.emial;
                                     this.$store.state.passwd = this.registerForm.passwd;
                                     this.$store.state.token = res.data.token;
                                     this.$store.state.group = res.data.group;
@@ -133,9 +150,15 @@
                                 alert("账号已存在！")
                             }
                         })
+                        // console.log('success')
                     }else  {
                         this.text = "创建账户";
                         this.isLoading = false;
+                        this.$alert('账号不成立！', '警告', {
+                            confirmButtonText: '确定',
+                            callback: {
+                            }
+                        });
                         // console.log('error submit!!');
                         return false;
                     }

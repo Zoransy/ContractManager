@@ -5,16 +5,16 @@
             <el-input v-model="cusForm.name"></el-input>
         </el-form-item>
         <el-form-item label="客户电话" prop="tel">
-            <el-input v-model="cusForm.tel"></el-input>
+            <el-input v-model="cusForm.telephone"></el-input>
         </el-form-item>
         <el-form-item label="客户地址" prop="address">
             <el-input v-model="cusForm.address"></el-input>
         </el-form-item>
-        <el-form-item label="客户传真" prop="fax">
+        <!-- <el-form-item label="客户传真" prop="fax">
             <el-input v-model="cusForm.fax"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="客户邮箱" prop="mail">
-            <el-input v-model="cusForm.mail"></el-input>
+            <el-input v-model="cusForm.postcode"></el-input>
         </el-form-item>
         <el-form-item label="银行名称" prop="bank">
             <el-input v-model="cusForm.bank"></el-input>
@@ -36,15 +36,18 @@
 
 <script>
     export default {
+        mounted(){
+            alert(this.$url + "/customer/addCustomer");
+        },
         name: "addCustomer",
         data() {
             return {
                 cusForm: {
                     name: '',
-                    tel: '',
                     address: '',
-                    fax: '',
-                    mail: '',
+                    telephone: '',
+                    //fax: '',
+                    postcode: '',//mail
                     bank: '',
                     account: '',
                 },
@@ -76,9 +79,9 @@
                                 token: this.$store.state.token,
                                 name: this.cusForm.name,
                                 address: this.cusForm.address,
-                                tel: this.cusForm.tel,
-                                fax: this.cusForm.fax,
-                                mail: this.cusForm.mail,
+                                telephone: this.cusForm.telephone,
+                                //fax: this.cusForm.fax,
+                                postcode: this.cusForm.postcode,
                                 bank: this.cusForm.bank,
                                 account: this.cusForm.account
                             },

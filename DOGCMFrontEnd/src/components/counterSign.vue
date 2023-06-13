@@ -1,6 +1,9 @@
 <template>
-
+<!-- 待会签 -->
     <div>
+        <!-- <div v-for="(contract, index) in contracts" :key="index">
+      {{ contract }}
+        </div> -->
         <el-table
                 :data="tableData.filter(data => !search ||
                 data.contract_name.toLowerCase().includes(search.toLowerCase()))"
@@ -77,7 +80,7 @@ scope">
                     <el-input v-model="draftForm.name"></el-input>
                 </el-form-item>
                 <el-form-item label="客户:" prop="userName">
-                    <el-input v-model="draftForm.userName"></el-input>
+                    <el-input v-model="draftForm.customer"></el-input>
                 </el-form-item>
                 <el-form-item label="活动时间" prop="date">
                     <el-date-picker
@@ -113,9 +116,14 @@ scope">
 
 <script>
     export default {
+        mounted() {//一进入页面就发送user_name数据，获取待会签的信息
+            this.sendDataToBackend();
+        },
+
         name: "counterSign",
 
         data() {
+            // contracts:[];
             const generateData = () => {
                 const data = [];
                 this.$axios({
@@ -162,13 +170,98 @@ scope">
                 row: -1,
                 draftForm: {
                     name: '',
-                    userName: '',
+                    userName: this.$store.userName,//'',
                     date: '',
                     info: '',
                 },
             }
         },
         methods: {
+            sendDataToBackend() {
+                alert("user="+this.$store.state.userName)
+                // 构造请求的数据
+                // const requestData = {
+                //     user_name:this.$store.state.userName, // 从状态管理中获取用户名
+                // };
+                this.$axios({
+                            url: "http://localhost:10087/mainFrame/counterSign",
+                            method: 'post',
+                            data: {
+                                user_name: this.$store.state.userName
+                            },
+                            //这个不能删！！
+                            transformRequest: [function (data) {
+                                let ret = '';
+                                for (let it in data) {
+                                    ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                                }
+                                return ret
+                            }],
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                        }).then(res => {
+                            if (res.data.state === -1) {
+                                
+                                this.$notify({
+                                    title: '失败',
+                                    message: '待会签！',
+                                    type: "error"
+                                })
+                            }
+
+                            if (res.data.state === 0) {
+                                this.$notify({
+                                    title: '成功',
+                                    message: '待会签成功',
+                                    type: "success"
+                                })
+                                ////////应该回收合同
+                                this.constructs = res.data.constructs
+                                // this.cusForm = this.cleanJson(this.cusForm)
+                            }
+                        })
+                // this.$axios({//向指定资源提交数据
+                //             url: this.$loginUrl,//请求路径
+                            
+                //             method: 'post',
+                //             data: {//提交id 密码
+                //                 user: this.form.name,
+                //                 //passwd: this.$md5(this.form.passwd + this.$salt),
+                //                 passwd: this.form.passwd,
+                //             },
+
+                //             transformRequest: [function (data) {
+                //                 let ret = '';
+                //                 for (let it in data) {
+                //                     ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                //                 }
+                //                 return ret
+                //             }],
+                //             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                //             // headers: {
+                //             //     'Content-Type': 'application/x-www-form-urlencoded'
+                //             // }
+                //         }).then(res => {
+                //             //alert('okk!');
+                //             this.text = "";
+                //             this.isLoading = true;
+                //             this.state = res.data.state;
+                //             this.group = res.data.group;
+                //             this.$store.state.userName = this.form.name;
+                //             this.$store.state.passwd = this.form.passwd;
+                //             this.$store.state.token = res.data.token;
+                //             this.$store.state.group = res.data.group;
+                //             this.loginProcess();
+                //         })
+                // 发送请求
+                // this.$axios.post('http://localhost:10087/mainFrame/counterSign', requestData)
+                // .then(response => {
+                //     // 从响应中获取 contracts 数组
+                //     const contracts = response.data.contracts;
+
+                //     // 在前端进行后续操作，比如将 contracts 数组保存到组件的数据中
+                //     this.contracts = contracts;
+                // });
+            },
             handleEdit(index, row) {
                 this.dialog2Visible = true;
                 this.index = index;

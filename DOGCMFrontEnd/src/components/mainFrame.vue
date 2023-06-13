@@ -11,6 +11,11 @@
                                 padding-top: auto; padding-bottom: auto;"
                                @click="clickFold"></el-button>
                 </el-menu-item>
+
+                <el-submenu class="main-submenu" index="5">
+                    <template slot="title">首页</template>
+                </el-submenu>
+
                 <el-submenu class="main-submenu" index="4">
                     <template slot="title">合同签订</template>
                     <el-menu-item index="sign">待签订合同</el-menu-item>

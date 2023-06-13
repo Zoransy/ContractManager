@@ -7,10 +7,10 @@
         <div>
             <el-form ref="draftForm" :model="draftForm" :rules="rule" label-position="left" label-width="85px">
                 <el-form-item label="合同名称:" prop="name">
-                    <el-input v-model="draftForm.name"></el-input>
+                    <el-input v-model="draftForm.contract_name"></el-input>
                 </el-form-item>
                 <el-form-item label="客户:" prop="userName">
-                    <el-select v-model="draftForm.userName" clearable placeholder="请选择">
+                    <el-select v-model="draftForm.customer" clearable placeholder="请选择">
                         <el-option
                                 v-for="item in options"
                                 :key="item.value"
@@ -35,7 +35,12 @@
                 </el-form-item>
 
                 <el-form-item label="合同内容" prop="info">
-                    <el-input type="textarea" :autosize="{minRows:3, maxRows:6}" v-model="draftForm.info"></el-input>
+                    <el-input type="textarea" :autosize="{minRows:3, maxRows:6}" v-model="draftForm.content"></el-input>
+                </el-form-item>
+
+                <el-form-item label="提交合同" prop="info">
+                    <el-input type="file" @change="handleFileChange"></el-input>
+                    <!-- :autosize="{minRows:3, maxRows:6}" v-model="draftForm.info" -->
                 </el-form-item>
 
 
@@ -64,6 +69,9 @@
 <script>
     import AddCustomer from "@/components/addCustomer";
     export default {
+        mounted() {
+            //alert("draft "+this.$url + "/contract/addContract");
+        },//钩子
         name: "draft",
         components: {AddCustomer},
         data() {
@@ -106,10 +114,19 @@
                 dialogVisible: false,
 
                 draftForm: {
-                    name: '',
-                    userName: '',
-                    date: '',
-                    info: '',
+                    contract_name:'',
+                    customer:'',
+                    date:'',
+                    start_time:'',
+                    end_time:'',
+                    content:'',
+                    user_name:this.$store.userName,
+                    file_name:'',
+                    // name: '',
+                    // userName: '',
+                    // file:'',
+                    // date: '',
+                    // info: '',
                 },
 
                 nullContract: {
@@ -125,17 +142,17 @@
                 customerValue: '',
 
                 rule: {
-                    name: {
-                        required: true, message: '请输入合同名称', trigger: 'blur'
-                    },
+                    // name: {
+                    //     required: true, message: '请输入合同名称', trigger: 'blur'
+                    // },
 
-                    userName: {
-                        required: true, message: '请输入客户姓名', trigger: 'blur'
-                    },
-                    date: {
-                        required: true, message: '请选择时间', trigger: 'blur'
-                    },
-                    info: {
+                    // userName: {
+                    //     required: true, message: '请输入客户姓名', trigger: 'blur'
+                    // },
+                    // date: {
+                    //     required: true, message: '请选择时间', trigger: 'blur'
+                    // },
+                    content: {
                         required: true, message: '请输入合同内容', trigger: 'blur'
                     }
                 }
@@ -143,6 +160,13 @@
         },
 
         methods: {
+            handleFileChange(event) {
+                // 获取用户选择的文件
+                const file = event.target.files[0];
+                // 将文件保存在组件的 data 中，以便上传时使用
+                this.draftForm.file_name = file;
+            },
+
             resetContract() {
                 this.$confirm("此操作将清空该合同，是否继续？", "提示", {
                     confirmButtonText: "确定",
@@ -207,11 +231,15 @@
                             method: 'post',
                             data: {
                                 token: this.$store.state.token,
-                                contract_name: this.draftForm.name,
-                                customer_id: this.draftForm.userName,
-                                dateFrom: this.draftForm.date[0],
-                                dateTo: this.draftForm.date[1],
-                                content: this.draftForm.info
+                                contract_name: this.draftForm.contract_name,
+                                customer: this.draftForm.customer,
+                                //customer_id: this.draftForm.userName,
+                                start_time: this.draftForm.date[0],
+                                end_time: this.draftForm.date[1],
+                                content: this.draftForm.info,
+                                user_name:this.$store.state.userName ,//userName this.draftForm.
+                                file_name:this.draftForm.file
+                                
                             },
                             transformRequest: [function (data) {
                                 let ret = '';

@@ -21,6 +21,8 @@
 </template>
 
 <script>
+//import logmock from '@/mock/registermock';
+
     export default {
         name: "login",
         data() {
@@ -31,8 +33,8 @@
                 isDisabled: false,
                 isLoading: false,
                 form: {
-                    name: '',
-                    passwd: '',
+                    name: 'user',
+                    passwd: '654321',
                 },
                 rules: {
                     name: [
@@ -53,19 +55,25 @@
         },
         methods: {
             ClickLogin() {
+
                 // this.isLoading = !this.isLoading;
                 // this.text = "";
+                // console.log('clicklog');
+                
                 if (this.isLoading) {
                     this.text = ""
                 }
+                //this.$alert('clcik'+this.isLoading);
                 this.$refs["form"].validate((valid) => {
-                    if (valid) {
-                        // alert('submit!');
 
-                        this.$axios({
-                            url: this.$loginUrl,
+                    if (valid) {
+                        //alert('submit!');
+                        //alert(this.$loginUrl);
+                        this.$axios({//向指定资源提交数据
+                            url: this.$loginUrl,//请求路径
+                            
                             method: 'post',
-                            data: {
+                            data: {//提交id 密码
                                 user: this.form.name,
                                 //passwd: this.$md5(this.form.passwd + this.$salt),
                                 passwd: this.form.passwd,
@@ -83,6 +91,7 @@
                             //     'Content-Type': 'application/x-www-form-urlencoded'
                             // }
                         }).then(res => {
+                            //alert('okk!');
                             this.text = "";
                             this.isLoading = true;
                             this.state = res.data.state;
@@ -133,6 +142,7 @@
                 }
             },
             clickRegister() {
+                //实现路由跳转 注册页面
                 this.$router.push("/register")
             }
         },
