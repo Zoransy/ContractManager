@@ -1,69 +1,71 @@
 <template>
-    <el-card class="box-card">
-        <div slot="header" class="clearfix">
-            起草合同
-        </div>
+  <div>
+    <el-card class="box-card" width="500px" style="transform: translateX(10%)">
+      <div slot="header" class="clearfix">
+        起草合同
+      </div>
 
-        <div>
-            <el-form ref="draftForm" :model="draftForm" :rules="rule" label-position="left" label-width="85px">
-                <el-form-item label="合同名称:" prop="name">
-                    <el-input v-model="draftForm.contract_name"></el-input>
-                </el-form-item>
-                <el-form-item label="客户:" prop="userName">
-                    <el-select v-model="draftForm.customer" clearable placeholder="请选择">
-                        <el-option
-                                v-for="item in options"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                        </el-option>
-                    </el-select>
-<!--                    <el-input style="width: 70%" v-model="draftForm.userName"></el-input>-->
-                    <el-button @click="dialogVisible=true">添加客户</el-button>
-                </el-form-item>
-                <el-form-item label="活动时间" prop="date">
-                    <el-date-picker
-                            v-model="draftForm.date"
-                            type="daterange"
-                            align="right"
-                            unlink-panels
-                            range-separator="至"
-                            value-format="yyyy-MM-dd"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期">
-                    </el-date-picker>
-                </el-form-item>
+      <div>
+        <el-form ref="draftForm" :model="draftForm" :rules="rule" label-position="left" label-width="85px">
+          <el-form-item label="合同名称:" prop="name">
+            <el-input v-model="draftForm.contract_name"></el-input>
+          </el-form-item>
+          <el-form-item label="客户:" prop="userName">
+            <el-select v-model="draftForm.customer" clearable placeholder="请选择">
+              <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+              </el-option>
+            </el-select>
+            <!--                    <el-input style="width: 70%" v-model="draftForm.userName"></el-input>-->
+            <el-button @click="dialogVisible=true">添加客户</el-button>
+          </el-form-item>
+          <el-form-item label="活动时间" prop="date">
+            <el-date-picker
+                v-model="draftForm.date"
+                type="daterange"
+                align="right"
+                unlink-panels
+                range-separator="至"
+                value-format="yyyy-MM-dd"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+            </el-date-picker>
+          </el-form-item>
 
-                <el-form-item label="合同内容" prop="info">
-                    <el-input type="textarea" :autosize="{minRows:3, maxRows:6}" v-model="draftForm.content"></el-input>
-                </el-form-item>
+          <el-form-item label="合同内容" prop="info">
+            <el-input type="textarea" :autosize="{minRows:3, maxRows:6}" v-model="draftForm.content"></el-input>
+          </el-form-item>
 
-                <el-form-item label="提交合同" prop="info">
-                    <el-input type="file" @change="handleFileChange"></el-input>
-                    <!-- :autosize="{minRows:3, maxRows:6}" v-model="draftForm.info" -->
-                </el-form-item>
+          <el-form-item label="提交合同" prop="info">
+            <el-input type="file" @change="handleFileChange"></el-input>
+            <!-- :autosize="{minRows:3, maxRows:6}" v-model="draftForm.info" -->
+          </el-form-item>
 
 
-                <el-form-item>
-                    <el-row>
-                        <el-col :span="15">
-                            <el-button type="primary" @click="postContract">确定</el-button>
-                        </el-col>
+          <el-form-item>
+            <el-row>
+              <el-col :span="15">
+                <el-button type="primary" @click="postContract">确定</el-button>
+              </el-col>
 
-                        <el-col :span="9">
-                            <el-button type="danger" @click="resetContract">重置</el-button>
-                        </el-col>
-                    </el-row>
-                </el-form-item>
+              <el-col :span="9">
+                <el-button type="danger" @click="resetContract">重置</el-button>
+              </el-col>
+            </el-row>
+          </el-form-item>
 
-            </el-form>
-        </div>
+        </el-form>
+      </div>
 
-        <el-dialog @close="closeDlg" center width="35%" title="添加客户" :visible.sync="dialogVisible">
-            <add-customer></add-customer>
-        </el-dialog>
+      <el-dialog @close="closeDlg" center width="35%" title="添加客户" :visible.sync="dialogVisible" append-to-body>
+        <add-customer></add-customer>
+      </el-dialog>
 
     </el-card>
+  </div>
 </template>
 
 <script>

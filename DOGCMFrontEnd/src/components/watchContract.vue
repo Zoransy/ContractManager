@@ -28,10 +28,6 @@ scope">
                             placeholder="输入关键字搜索"/>
                 </template>
                 <template slot-scope="scope">
-                    <!--                    <el-button-->
-                    <!--                            size="mini"-->
-                    <!--                            @click="handleEdit(scope.$index, scope.row)">修改-->
-                    <!--                    </el-button>-->
 
                     <el-button
                             size="mini"
@@ -41,35 +37,18 @@ scope">
                             size="mini"
                             @click="handleEdit(scope.$index, scope.row)">审批
                     </el-button>
-                    <!--                    <el-button-->
-                    <!--                            size="mini"-->
-                    <!--                            type="danger"-->
-                    <!--                    >删除-->
-                    <!--                    </el-button>-->
-                    <!--                            @click="handleDelete(scope.$index, scope.row)"-->
                 </template>
             </el-table-column>
         </el-table>
+        <el-dialog title="确认审批" :visible.sync="dialog2Visible" append-to-body>
 
-
-        <el-dialog title="修改合同" :visible.sync="dialogVisible">
-            <edit-contract></edit-contract>
-        </el-dialog>
-
-        <el-dialog title="确认审批" :visible.sync="dialog2Visible">
-
-            <!--            <el-form >-->
-            <!--                <el-form-item label="定稿意见">-->
-            <!--                    <el-input type="textarea" :rows="3" v-model="msg"></el-input>-->
-            <!--                </el-form-item>-->
-            <!--            </el-form>-->
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialog2Visible = false">取 消</el-button>
                 <el-button type="primary" @click="postMsg">确 定</el-button>
             </div>
         </el-dialog>
 
-        <el-dialog title="查看" :visible.sync="dialog3Visible">
+        <el-dialog title="查看" :visible.sync="dialog3Visible" append-to-body>
 
             <el-form ref="draftForm" :model="draftForm" label-position="left" label-width="85px">
                 <el-form-item label="合同名称:" prop="name">
@@ -101,12 +80,6 @@ scope">
                 <el-button type="primary" @click="dialog3Visible = false">确 定</el-button>
             </div>
         </el-dialog>
-        <!--        <el-pagination-->
-        <!--                background-->
-        <!--                layout="prev, pager, next"-->
-        <!--                :total="1000"-->
-        <!--                align="center">-->
-        <!--        </el-pagination>-->
     </div>
 </template>
 
@@ -146,13 +119,11 @@ scope">
                         })
                     })
                 });
-
                 return data;
             };
             return {
                 search: '',
                 tableData: generateData(),
-                dialogVisible: false,
                 dialog2Visible: false,
                 dialog3Visible: false,
                 msg: '',
@@ -173,8 +144,6 @@ scope">
                 this.row = row;
                 // eslint-disable-next-line no-console
                 console.log(index, row);
-
-
             },
 
             handleWatch(index, row) {
@@ -203,27 +172,28 @@ scope">
                 this.dialog3Visible = true;
             },
             handleData(res) {
+                window.console.log(res.data)
                 if (res.data.state === -1) {
                     this.$notify({
                         title: '失败',
                         message: '获取失败！',
                         type: "error"
                     });
-
                     this.dialog3Visible = false;
+                    //this.dialog2Visible = true
                 }
 
                 if (res.data.state === 0) {
 
-                    this.draftForm.name = res.data.data[0].name;
-                    this.draftForm.userName = res.data.data[0].customer;
+                    this.draftForm.name = res.data.name;
+                    this.draftForm.userName = res.data.customer;
                     const date = [];
-                    date[0] = res.data.data[0].beginTime;
-                    date[1] = res.data.data[0].endTime;
+                    date[0] = res.data.beginTime;
+                    date[1] = res.data.endTime;
                     this.draftForm.date = date;
-                    this.draftForm.info = res.data.data[0].content;
+                    this.draftForm.info = res.data.content;
                 }
-
+                this.dialogVisible = false;
                 // console.log("test",this.draftForm)
             },
 
@@ -254,7 +224,6 @@ scope">
                     }
 
                     if (res.data.state === 0) {
-
                         var data = [];
                         res.data.data.forEach((item, index) => {
                             data.push({
@@ -275,7 +244,7 @@ scope">
                     }
 
                     this.msg = '';
-                    this.dialog2Visible = false;
+                    //this.dialog2Visible = false;
                 })
             },
 

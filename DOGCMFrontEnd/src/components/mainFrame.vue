@@ -3,7 +3,7 @@
         <el-header style="padding: 0">
 
             <el-menu  class="el-menu-mainBar" mode="horizontal"
-                     background-color="#007BFF" text-color="#ffffff" :router=true active-text-color="#ffffff">
+                     background-color= "#A9A9A9" text-color="#ffffff" :router=true active-text-color="#ffffff">
                 <el-menu-item v-show="false">
                     <el-button class="foldButton" :icon="myIcon" type="text"
                                style="background-color: rgba(0, 0, 0, 0);
