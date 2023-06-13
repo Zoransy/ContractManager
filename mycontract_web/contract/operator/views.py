@@ -29,6 +29,11 @@ def draft(request):
         file_name = request.POST.get('file_name')
         user_name = request.POST.get('user_name')
 
+        row = Contract.objects.filter(name=contract_name).first()
+        if row == None:
+            response['state'] = 1
+        else :
+            response['state'] = 0
         qeury_user = User.objects.filter(name=user_name).first()
 
         query_file = File.objects.filter(fileName=file_name).first()
@@ -44,7 +49,6 @@ def draft(request):
                                 user_id=qeury_user.id)
         
         # state = 0 mean that succeed to create the file
-        response['state'] = 0
         return JsonResponse(response)
  
 
@@ -53,6 +57,7 @@ def counter(request):
     response = {**headers}
     if request.method == 'GET':
         user_name = request.GET.get('user_name')
+        
         user_id = User.objects.filter(name=user_name).first().id
         # this query_set represent those contracts which is needed to be acounter by the user
         query_set = CounterSign.objects.filter(user_id=user_id)
@@ -64,16 +69,16 @@ def counter(request):
             contract = Contract.objects.filter(id=row.contract_id).first()
             if row.content is None:
                 contracts.append(contract.name)
-
+        response['contracts'] = contracts
         return JsonResponse(response)
     else :
+        user_name = request.POST.get('user_name')
+        user_id = User.objects.filter(name=user_name).first().id
         contract_name = request.POST.get('contract_name')
         content = request.POST.get('content')
         contract_id = Contract.objects.filter(name=contract_name).first().id
 
-        CounterSign.objects.filter(contract_id=contract_id).update(content=content)
-        # change the state of the contract
-        Contract.objects.filter(name=contract_name).update(state=1)
+        CounterSign.objects.filter(contract_id=contract_id, user_id=user_id).update(content=content)
         
         # judge all of the contract are countered
         query_set = CounterSign.objects.filter(contract_id=contract_id)
@@ -124,7 +129,7 @@ def finalize(request):
         start_time = query_row.start_time
         end_time = query_row.end_time
         # get the file name of the contract
-        file = query_row.file
+        file = File.objects.filter(id=query_row.file_id).first().fileName
 
         response['customer'] = customer
         response['start_time'] = start_time
@@ -146,6 +151,7 @@ def finalize(request):
 
         return JsonResponse(response)
 
+@csrf_exempt
 def approve(request):
     response = {**headers}
 
@@ -172,7 +178,7 @@ def approve(request):
         user_name = request.POST.get('user_name')
         contract_name = request.POST.get('contract_name')
         content = request.POST.get('content')
-        accept = request.POST.get('accept')
+        accept = int(request.POST.get('accept'))
 
         contract_id = Contract.objects.filter(name=contract_name).first().id
 
@@ -193,7 +199,7 @@ def approve(request):
             # if one refuse, dinggao again
             Approve.objects.filter(contract_id=contract_id).update(judge=0)
             
-            Contract.objects.filter(contract_id=contract_id).update(state=1)
+            Contract.objects.filter(id=contract_id).update(state=1)
 
         return JsonResponse(response)
 
