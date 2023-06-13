@@ -136,12 +136,12 @@ scope">
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 
                 }).then(res => {
-
-                    res.data.data.forEach((item, index) => {
+                    //window.console.log(res.data)
+                    res.data.contracts.forEach((item, index) => {
                         data.push({
                             index: index + 1,
-                            date: item.beginTime,
-                            contract_name: item.name,
+                            date: item.date,
+                            contract_name: item.contract_name,
                             id: item.id
                         })
                     })
@@ -214,6 +214,7 @@ scope">
                 }
 
                 if (res.data.state === 0) {
+
                     this.draftForm.name = res.data.data[0].name;
                     this.draftForm.userName = res.data.data[0].customer;
                     const date = [];

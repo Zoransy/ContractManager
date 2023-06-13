@@ -1,7 +1,7 @@
 // 引入mockjs
 import Mock from 'mockjs'
 import Mock2 from 'mockjs'
-import MockSign from 'mockjs'
+//import MockSign from 'mockjs'
 import draftMcok from 'mockjs'
 //import AddMcok from 'mockjs'
 import USMcok from 'mockjs'
@@ -10,7 +10,7 @@ import USMcok from 'mockjs'
 const loginSuccess = {
     state: 0, // 状态码，0表示成功
     //group: Mock.Random.integer(0, 1), // 用户组，0表示普通用户，1表示管理员
-    token: Mock.Random.guid(), // 令牌
+    token: "123456", // 令牌
 }
 const DraftSuccess = {
     state:0,//草稿创建成功
@@ -35,7 +35,7 @@ const loginFail2 = {
 const RSuccess = {
     state: 0, // 状态码，0表示成功
     //group: Mock.Random.integer(0, 1), // 用户组，0表示普通用户，1表示管理员
-    token: Mock.Random.guid(), // 令牌
+    token: '123456', // 令牌
 }
 
 // 模拟账号不存在的数据
@@ -136,26 +136,26 @@ Mock2.mock('http://localhost:10087/user/register', 'post', (options) => {
 })
 
 ///http://localhost:10087/mainFrame/counterSign
-MockSign.mock('http://localhost:10087/contract/selectContractByType', 'post', (options) => {
-    // 获取请求参数
-    //alert("111进入已签订后端！")
-    const params = new URLSearchParams(options.body)
-    const user = params.get('id')
-    //const user = params.get('user')
-    //const passwd = params.get('passwd')
-    // 判断用户名和密码是否正确
-    if(user!="")
-    return {
-                ...SIGNSuccess,
-                group: 1,
-                // 添加响应头
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'POST',
-                    'Access-Control-Allow-Headers': 'Content-Type'
-                }
-            }
-})
+// MockSign.mock('http://localhost:10087/contract/selectContractByType', 'post', (options) => {
+//     // 获取请求参数
+//     //alert("111进入已签订后端！")
+//     const params = new URLSearchParams(options.body)
+//     const user = params.get('id')
+//     //const user = params.get('user')
+//     //const passwd = params.get('passwd')
+//     // 判断用户名和密码是否正确
+//     if(user!="")
+//     return {
+//                 ...SIGNSuccess,
+//                 group: 1,
+//                 // 添加响应头
+//                 headers: {
+//                     'Access-Control-Allow-Origin': '*',
+//                     'Access-Control-Allow-Methods': 'POST',
+//                     'Access-Control-Allow-Headers': 'Content-Type'
+//                 }
+//             }
+// })
 
 draftMcok.mock('http://localhost:10087/contract/addContract', 'post', (options) => {
     // 获取请求参数

@@ -94,15 +94,16 @@
                     }],
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(res => {
-
+                    //alert("received"+ res.data.customers)
+                    //window.console.log(res.data.customers)
                     res.data.customers.forEach((item, index) => {
+                        //alert("已接收："+ item.id)
                         data.push({
-                            value: item.id,
-                            label: item.name,
+                            value: item.value,
+                            label: item.label,
                             index: index
                         });
                     })
-
                 });
 
                 return data;

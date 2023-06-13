@@ -8,7 +8,7 @@ export default new Vuex.Store({
     state: {
         userName: '',
        // email:'',
-        token: '',
+        token: '123456',
         group: -1,
         passwd:'',
         pswMD5: '',

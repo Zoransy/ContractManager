@@ -135,8 +135,8 @@ scope">
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 
                 }).then(res => {
-
-                    res.data.data.forEach((item, index) => {
+                    //window.console.log()
+                    res.data.contracts.forEach((item, index) => {
                         data.push({
                             index: index + 1,
                             date: item.beginTime,
