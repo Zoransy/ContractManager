@@ -1,94 +1,94 @@
 <template>
-    <div>
-        <el-table
-                :data="tableData.filter(data => !search ||
+  <div>
+    <el-table
+        :data="tableData.filter(data => !search ||
                 data.contract_name.toLowerCase().includes(search.toLowerCase()))"
-                style="width: 95%; margin: auto; border-radius: 10px; transform: translateY(5%)">
-            <el-table-column
-                    label="序号"
-                    prop="index">
-            </el-table-column>
+        style="width: 100%">
+      <el-table-column
+          label="序号"
+          prop="index">
+      </el-table-column>
 
-            <el-table-column
-                    label="合同名称"
-                    prop="contract_name">
-            </el-table-column>
-            <el-table-column
-                    label="起草时间"
-                    prop="date">
-            </el-table-column>
-            <el-table-column
-                    align="right">
-                <template slot="header" slot-scope="
+      <el-table-column
+          label="合同名称"
+          prop="contract_name">
+      </el-table-column>
+      <el-table-column
+          label="起草时间"
+          prop="date">
+      </el-table-column>
+      <el-table-column
+          align="right">
+        <template slot="header" slot-scope="
 /* eslint-disable vue/no-unused-vars */
 scope">
-                    <el-input
-                            v-model="search"
-                            size="mini"
-                            placeholder="输入关键字搜索"/>
-                </template>
-                <template slot-scope="scope">
-                    <el-button
-                            size="mini"
-                            @click="handleEdit(scope.$index, scope.row)">分配
-                    </el-button>
-                </template>
-            </el-table-column>
-        </el-table>
+          <el-input
+              v-model="search"
+              size="mini"
+              placeholder="输入关键字搜索"/>
+        </template>
+        <template slot-scope="scope">
+          <el-button
+              size="mini"
+              @click="handleEdit(scope.$index, scope.row)">分配
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
 
-        <el-dialog @close="closeDlg" title="分配合同" :visible.sync="dialog2Visible">
-            <el-container direction="vertical">
-                <el-container>
-                    <el-header>分配会签人</el-header>
-                    <el-main>
-                        <el-transfer
-                                filterable
-                                filter-placeholder="请输入用户名"
-                                v-model="commitValue"
-                                :data="permissionData"
-                                :titles="['待分配人员', '已分配人员列表']"
-                                class="main-transfer"
-                        @change="changeCommit">
+    <el-dialog @close="closeDlg" title="分配合同" :visible.sync="dialog2Visible" append-to-body>
+      <el-container direction="vertical">
+        <el-container>
+          <el-header>分配会签人</el-header>
+          <el-main>
+            <el-transfer
+                filterable
+                filter-placeholder="请输入用户名"
+                v-model="commitValue"
+                :data="permissionData"
+                :titles="['待分配人员', '已分配人员列表']"
+                class="main-transfer"
+                @change="changeCommit">
 
-                        </el-transfer>
-                    </el-main>
-                </el-container>
+            </el-transfer>
+          </el-main>
+        </el-container>
 
-                <el-container>
-                    <el-header>分配审批人</el-header>
-                    <el-main>
-                        <el-transfer
-                                filterable
-                                filter-placeholder="请输入用户名"
-                                v-model="watchValue"
-                                :data="permissionData"
-                                :titles="['待分配人员', '已分配人员列表']"
-                                class="main-transfer"
-                        @change="changeWatch">
+        <el-container>
+          <el-header>分配审批人</el-header>
+          <el-main>
+            <el-transfer
+                filterable
+                filter-placeholder="请输入用户名"
+                v-model="watchValue"
+                :data="permissionData"
+                :titles="['待分配人员', '已分配人员列表']"
+                class="main-transfer"
+                @change="changeWatch">
 
-                        </el-transfer>
-                    </el-main>
-                </el-container>
+            </el-transfer>
+          </el-main>
+        </el-container>
 
-                <el-container>
-                    <el-header>分配签订人</el-header>
-                    <el-main>
-                        <el-transfer
-                                filterable
-                                filter-placeholder="请输入用户名"
-                                v-model="signValue"
-                                :data="permissionData"
-                                :titles="['待分配人员', '已分配人员列表']"
-                                class="main-transfer"
-                        @change="changeSign">
+        <el-container>
+          <el-header>分配签订人</el-header>
+          <el-main>
+            <el-transfer
+                filterable
+                filter-placeholder="请输入用户名"
+                v-model="signValue"
+                :data="permissionData"
+                :titles="['待分配人员', '已分配人员列表']"
+                class="main-transfer"
+                @change="changeSign">
 
-                        </el-transfer>
-                    </el-main>
-                </el-container>
-            </el-container>
-        </el-dialog>
-    </div>
+            </el-transfer>
+          </el-main>
+        </el-container>
+      </el-container>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -136,6 +136,8 @@ scope">
                 tableData: generateData(),
                 dialogVisible: false,
                 dialog2Visible: false,
+                dialog3Visible: false,
+                dialog4Visible: false,
                 msg: '',
                 index: -1,
                 row: -1,

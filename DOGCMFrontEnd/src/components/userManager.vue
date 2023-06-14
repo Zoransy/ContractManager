@@ -47,12 +47,12 @@
                     :titles="['操作员', '管理员']"
                     class="main-transfer"
                     @change="handleChange">
-                <el-button class="transfer-footer el-icon-minus" slot="left-footer" size="small" circle></el-button>
-                <el-button class="transfer-footer el-icon-plus" slot="left-footer" size="small" circle></el-button>
+<!--                <el-button class="transfer-footer el-icon-minus" slot="left-footer" size="small" circle></el-button>-->
+<!--                <el-button class="transfer-footer el-icon-plus" slot="left-footer" size="small" circle></el-button>-->
 
-                <el-button class="transfer-footer el-icon-minus" slot="right-footer" size="small"
-                           circle></el-button>
-                <el-button class="transfer-footer el-icon-plus" slot="right-footer" size="small" circle></el-button>
+<!--                <el-button class="transfer-footer el-icon-minus" slot="right-footer" size="small"-->
+<!--                           circle></el-button>-->
+<!--                <el-button class="transfer-footer el-icon-plus" slot="right-footer" size="small" circle></el-button>-->
 
             </el-transfer>
         </el-main>
@@ -86,7 +86,7 @@
                     res.data.manager_entities.forEach((item, index) => {
                         data.push({
                             label: item.name,
-                            key: index,
+                            key: item.name,
                             // pinyin: pinyin[index]
                         });
                         if (item.rol_id === 1) {
@@ -140,8 +140,9 @@
 
             handleChange(value, direction, movedKeys) {
                 // eslint-disable-next-line no-console
-                console.log(movedKeys);
+
                 if (direction === "right") {
+                    window.console.log(movedKeys);
                     this.$axios({
                         url: this.$url + "/user/addRootList",
                         method: 'post',
