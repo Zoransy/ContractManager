@@ -1,5 +1,5 @@
 <template>
-    <div id="building">
+    <div id="building" style="margin: 0px; padding: 0px" >
   <transition name="transitionRouter">
     <router-view></router-view>
   </transition>
@@ -32,7 +32,7 @@ body{
   border:0
 }
 #building {
-  background: url("~@/assets/background.jpg");
+  background: url("~@/assets/pixelart.jpg");
   width: 100%;
   height: 100%;
   position: fixed;

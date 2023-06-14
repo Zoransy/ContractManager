@@ -1,5 +1,5 @@
 <template>
-    <el-container direction="horizontal" style=" height: 100%;width: 100%; top: 0; bottom: 0;">
+    <el-container direction="horizontal" style=" height: 100%;width: 100%; top: 0; bottom: 0; margin: 0px; padding: 0px">
         <el-aside v-show="false" width="20%" style="height: 100%">
             <el-menu
                     class="el-menu-vertical"

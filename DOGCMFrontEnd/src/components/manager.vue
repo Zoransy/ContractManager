@@ -2,9 +2,9 @@
     <el-container style="width: 100%;height: 100%; top: 0; bottom: 0;">
         <el-header style="padding: 0">
 
-            <el-menu active-text-color="#ffffff" default-active="/userManager" :router="true" class="el-menu-mainBar"
+            <el-menu active-text-color="#5c76eb" default-active="/userManager" :router="true" class="el-menu-mainBar"
                      mode="horizontal"
-                     background-color="#007BFF" text-color="#ffffff">
+                     background-color="rgba(255, 255, 255, 0.5)" text-color="#000000"  border-color="rgba(255, 255, 255, 0.5)">
                 <el-menu-item v-show="false">
                     <el-button class="foldButton" :icon="myIcon" type="text"
                                style="background-color: rgba(0, 0, 0, 0);
@@ -17,6 +17,9 @@
                 </el-menu-item>
                 <el-menu-item class="main-submenu" index="permission">
                     <template slot="title">分配合同</template>
+                </el-menu-item>
+                <el-menu-item class="main-submenu" index="login">
+                    <template slot="title">退出登录</template>
                 </el-menu-item>
             </el-menu>
         </el-header>
