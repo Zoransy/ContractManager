@@ -16,7 +16,7 @@ Mock.mock("http://localhost:10087/customer/selectAllCustomer", 'post', (options)
     const token = params.get('token')
     // 验证token是否有效
     if (token === '123456') {
-        //alert("hhhhhhhhhh")
+        //  alert("hhhhhhhhhh")
         // 返回成功响应
         return {
             code: 200,

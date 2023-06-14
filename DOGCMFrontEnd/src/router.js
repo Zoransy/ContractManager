@@ -8,6 +8,7 @@ import signContract from "@/components/signContract";
 import iscounterSign from "./components/iscounterSign";
 import isWatchContract from "@/components/isWatchContract";
 import isSign from "@/components/isSign";
+import login from "@/components/login.vue";
 
 Vue.use(Router);
 
@@ -64,6 +65,7 @@ export default new Router({
                 {
                     path: 'login',
                     name: '退出登录',
+                    redirect: "/login",
                     component: () => import('./components/login.vue'),
                 },
             ]
@@ -77,7 +79,8 @@ export default new Router({
                 {
                     path: 'login',
                     name: '退出登录',
-                    component: () => import('./components/login.vue'),
+                    redirect: "/login",
+                    component: login,
                 },
                 {
                     path: 'draft',

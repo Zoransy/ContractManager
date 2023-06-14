@@ -55,8 +55,6 @@
                 <el-button class="transfer-footer el-icon-plus" slot="right-footer" size="small" circle></el-button>
 
             </el-transfer>
-
-
         </el-main>
 
     </el-container>

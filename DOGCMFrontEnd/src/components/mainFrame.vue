@@ -12,10 +12,6 @@
                                @click="clickFold"></el-button>
                 </el-menu-item>
 
-                <el-menu-item class="main-submenu" index="login">
-                    <template slot="title">退出登录</template>
-                </el-menu-item>
-
                 <el-submenu class="main-submenu" index="4">
                     <template slot="title">合同签订</template>
                     <el-menu-item index="sign">待签订合同</el-menu-item>
@@ -41,6 +37,9 @@
                     <el-menu-item >已定稿合同</el-menu-item>
                     <el-menu-item index="1-1">流程查询合同</el-menu-item>
                 </el-submenu>
+              <el-menu-item class="main-submenu" index="login">
+                <template slot="title">退出登录</template>
+              </el-menu-item>
 
             </el-menu>
         </el-header>
