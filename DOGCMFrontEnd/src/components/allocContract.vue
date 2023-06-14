@@ -102,9 +102,10 @@ scope">
                 const data = [];
 
                 this.$axios({
-                    url: this.$url + "/contract/selectAllContract",/*ByProcess*/
+                    url: this.$url + "/manager/display/search",/*ByProcess*/
                     method: 'post',
                     data: {
+                        types : 1, 
                         token: this.$store.state.token,
                         process: 1
                     },
