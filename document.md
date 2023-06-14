@@ -1,5 +1,5 @@
 # 登录注册界面
-pass
+pass pass
 ## 操作员
 ### 添加用户
 > url=add/customer
@@ -20,7 +20,7 @@ pass
 
 1.1 起草前
 > url = operator/draft
-request method = **get**
+request method = **get** 00
 我会传给：customers: []代表着所有客户的名字
 
 > url = operator/draft
@@ -39,11 +39,18 @@ data: {
         file_name:this.draftForm.file
 },////但是文件传输好像有问题
 2. 后端返回state=0 成功，其他-失败 
+
+#### 所有点击查看的按钮(已测试)
+> url = Check
+request method = **post**
+前端需要传给我: contract_name 
+我会传给：customer, start_time, end_time, content 
+
 #### 会签(已测试)
 > url = operator/counter
 request method = **get**
 前端需要传给我： user_name： 当前用户的名字
-我会传给前端一个: contracts : []此数组表此用户待会签的合同名字
+我会传给前端一个: contracts : []此数组表此用户待会签的合同名字  
 
 > url = operator/counter
 request method = **post**
@@ -53,10 +60,11 @@ contract_name : 合同名字
 content ： 会签的内容
 
 #### 定稿(已测试)
-> url = oprator/finalize
+> url = operator/finalize
 request method = **get**
 前端需要传给我：user_name : 登录此用户的名字
 我会返回的东西：finalizations : []代表着待定稿的合同
+
 
 > url = operator/finalize/fill
 这个地方就是在待定稿的合同中选择一个合同然后点击定稿，然后跳转到上述的url
@@ -79,7 +87,7 @@ reqeust method = **get**
  request method = **post**
  前端需要传给我： user_name : 用户的名字, contract_name : 合同的名字, accept : 0 | 1 0表示拒绝，1表示同意， content : 建议
 
-#### 签订
+#### 签订(已测试)
 > url = operator/sign
 request method = **get**
 前端需要传给的：user_name : 用户的名字
@@ -119,7 +127,11 @@ request method = **get**
 request method = **post**
 前端点击完成，传给后端: user_name : 用户的名字, isDraft : 表示的是否被分配起草 0 | 1, isAcounter: 0 | 1, isApprove : 0 | 1, isSign : 0 | 1
 
-#### 管理员查看每个合同的状态
+#### 管理员可以查看日志信息(已测试)
+> url=manager/checkLog
+request method = **post**
+后端传给前端：operators:[]表示的是操作员的名字, times:[]在对应的时间, behaviours:[]做了什么事情
+#### 管理员查看每个合同的状态(已测试)
 - 合同的状态：
     1. 待分配（起草之后就是待分配）
     2. 待会签（就是起草分配合同之后就是）
@@ -128,7 +140,7 @@ request method = **post**
     5. 待签订（签订之后）
 > url = manager/checkContractState
 request method = **post**
-后端传给的值：contracts : []所有的名字， start_times : []位置对应的合同的开始时间, end_times : [], state : -1 (待分配), 0（待会签）， 1（待定稿）， 2（待审核）， 3（待签订）， 4（全部已完成）
+后端传给的值：contracts : []所有的名字， start_times : []位置对应的合同的开始时间, end_times : [], states : -1 (待分配), 0（待会签）， 1（待定稿）， 2（待审核）， 3（待签订）， 4（全部已完成）
 
 #### 管理员分配角色
 ##### 点击分配角色按钮
