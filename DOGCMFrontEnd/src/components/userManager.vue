@@ -86,10 +86,10 @@
                     res.data.manager_entities.forEach((item, index) => {
                         data.push({
                             label: item.name,
-                            key: item.name,
+                            key: item.id,
                             // pinyin: pinyin[index]
                         });
-                        if (item.rol_id === 1) {
+                        if (item.rol_id === 1 ) {
                             this.value.push(index);
                         }
                     })
