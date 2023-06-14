@@ -17,16 +17,20 @@ def search_contract(request):
     if types == 1:
         # user_name = request.POST.get('user_name')
         # convert the contract name I can search dimly the contract which is not finished that means state != 3
-        contract_name = request.POST.get('contract_name')
+        # contract_name = request.POST.get('contract_name')
         # get all of the contract which contains the name
-        query_set = Contract.objects.filter(name__contains='%s'%(contract_name))
+        # query_set = Contract.objects.filter(name__contains='%s'%(contract_name))
+        query_set = Contract.objects.exclude(distribute=1).all()
 
         # judge the contract's state 
         contracts = []
         for row in query_set:
             if row.distribute == 0:
-                contracts.append(row.name)
+                contracts.append({'name' : row.name, 
+                                  'beginTime' : row.start_time,
+                                  'id' : row.id})
         response['contracts'] = contracts
+        
         return JsonResponse(response)
 
 @csrf_exempt

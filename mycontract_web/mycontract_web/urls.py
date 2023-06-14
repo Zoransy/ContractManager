@@ -24,6 +24,7 @@ from contract.cust.views import *
 
 from contract.role.views import *
 
+
 urlpatterns = [
     # path('admin/', admin.site.urls),
     # path('index/', views.index),
@@ -54,6 +55,8 @@ urlpatterns = [
 
     # manager distribute roles
     path('role/distribute_click', distribute_role_click),
-    path('role/distribute_change', distribute_role_change)
-
+    path('role/distribute_change_left_to_right', distribute_role_change_left_to_right),
+    path('role/distribute_change_right_to_left', distribute_role_change_right_to_left),
+    
+    # path('alloc/alloc_all_cotracts', alloc_all_cotracts),
 ]
