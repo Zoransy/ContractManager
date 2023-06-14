@@ -137,12 +137,14 @@ scope">
                 const data = [];
                 
                 this.$axios({
-                    url: this.$url + "/contract/selectContractByType",
+                    // url: this.$url + "/contract/selectContractByType",
+                    url: this.$url + "/operator/finalize",
                     method: 'post',
                     data: {
                         //contract_name:roww.contract_name,
+                        types : 0,
                         matter :1,
-                        userName:this.$store.userName,
+                        user_name:this.$store.state.userName,
                         // token: this.$store.state.token,
                         token: this.$store.state.token,
                         type: 'uncommitted'
@@ -159,15 +161,15 @@ scope">
 
                 }).then(res => {
                     //查看所有数据
-                    res.data.contracts.forEach((item, index) => {
+                    res.data.finalizations.forEach((item, index) => {
                         data.push({
                             index: index + 1,
-                            content:item.content,
-                            start_time: item.start_time,
+                            //content:item.content,
+                            //start_time: item.start_time,
                             //end_time: item.end_time,
                             //content:item.content,
                             // date: item.beginTime,
-                            contract_name: item.name,
+                            contract_name: item,
                             id: item.id
                         })
                     })
@@ -208,17 +210,18 @@ scope">
             handleWatch(index, row) {
                 this.index = index;
                 this.row = row;
-                const roww = this.tableData.find((item) => item.index === this.row.id);
+                //const roww = this.tableData.find((item) => item.index === this.row.id);
                 //roww.contract_name
                 //alert("前端要看"+this.$store.state.token+" **"+roww.contract_name)//+this.$refs.contracts.value)//+this.contracts[this.row.id]this.draftForm.name
 
                 this.$axios({
-                    url:this.$url + "/contract/selContract",
+                    // url:this.$url + "/contract/selContract",
+                    url:this.$url + "/Check",
                     method: 'post',
                     data: {
-                        contract_name : roww.contract_name,
+                        contract_name : this.row.contract_name,//roww.contract_name,
                         matter :1,//待定稿
-                        userName:this.$store.userName,
+                        user_name:this.$store.userName,
                         token: this.$store.state.token,//123456
                         id: this.row.id,
                     },
@@ -247,10 +250,11 @@ scope">
                 }
 
                 if (res.data.state === 0) {
-                    this.draftForm.name = res.data.name;
+                    this.draftForm.name = this.row.contract_name;//res.data.name;
                     this.draftForm.userName = res.data.customer;
                     this.draftForm.customer = res.data.customer;
                     this.draftForm.start_time = res.data.start_time;
+                    this.draftForm.end_time = res.data.end_time;
                     const date = [];
                     date[0] = res.data.beginTime;
                     date[1] = res.data.endTime;
@@ -267,17 +271,17 @@ scope">
                 //前端[object Object] undefined 111index, row
                 //前端undefined undefined 111
                 //前端[object Object]  222
-                const roww = this.tableData.find((item) => item.index === this.row.id);//contract_name : roww.contract_name,
+                //const roww = this.tableData.find((item) => item.index === this.row.id);//contract_name : roww.contract_name,
                 //alert("前端"+this.$store.state.token+"* "+this.row.id+"["+this.$store.state.userName+"]"+" ["+roww.contract_name+"] "+this.msg)
                 this.$axios({
                     
-                    url:this.$url + "/contract/commit",
+                    url:this.$url + "/operator/finalize/fill",
                     method: 'post',
                     data: {
-                        
+                        types : 1,
                         user_name : this.$store.state.userName,
-                        contract_name : roww.contract_name,
-                        content :this.msg,
+                        contract_name : this.row.contract_name,//roww.contract_name,
+                        content : this.msg,
                         token: this.$store.state.token,
                         id: this.row.id,//第一行第二行
                         msg: this.msg,
@@ -302,17 +306,18 @@ scope">
 
                     if (res.data.state === 0) {
 
-                        var data = [];
-                        res.data.data.forEach((item, index) => {
-                            data.push({
-                                index: index + 1,
-                                date: item.beginTime,
-                                contract_name: item.name,
-                                id: item.id
-                            })
-                        });
+                        // var data = [];
+                        // res.data.data.forEach((item, index) => {
+                        //     data.push({
+                        //         index: index + 1,
+                        //         date: item.beginTime,
+                        //         contract_name: item.name,
+                        //         id: item.id
+                        //     })
+                        // });
 
-                        this.tableData = data;
+                        //待调试
+                        this.tableData.splice(this.index, this.row.index)
 
                         this.$notify({
                             title: '成功',

@@ -98,11 +98,13 @@ scope">
                 //alert("待审批"+this.$url + "/contract/selectContractByType")
                 const data = [];
                 this.$axios({
-                    url: this.$url + "/contract/selectContractByType",
+                    // url: this.$url + "/contract/selectContractByType",
+                    url: this.$url + '/operator/approve',
                     method: 'post',
                     data: {
+                        types : 0,
                         matter :4,
-                        userName:this.$store.userName,
+                        user_name:this.$store.state.userName,
                         // token: this.$store.state.token,
                         token: this.$store.state.token,
                         type: 'watchContract'
@@ -119,11 +121,11 @@ scope">
 
                 }).then(res => {
                     //window.console.log(res.data)
-                    res.data.contracts.forEach((item, index) => {
+                    res.data.approves.forEach((item, index) => {
                         data.push({
                             index: index + 1,
-                            date: item.beginTime,
-                            contract_name: item.name,
+                            //date: item.beginTime,
+                            contract_name: item,
                             id: item.id
                         })
                     })
@@ -165,12 +167,13 @@ scope">
 
 
                 this.$axios({
-                    url:this.$url + "/contract/selContract",
+                    // url:this.$url + "/contract/selContract",
+                    url:this.$url + '/Check',
                     method: 'post',
                     data: {
                         matter :4,
-                        contract_name:row.contract_name,
-                        userName:this.$store.userName,
+                        contract_name:this.row.contract_name,
+                        user_name:this.$store.state.userName,
                         token: this.$store.state.token,
                         id: this.row.id,
                     },
@@ -200,7 +203,7 @@ scope">
                 }
 
                 if (res.data.state === 0) {
-                    this.draftForm.name = res.data.name;
+                    this.draftForm.name = this.row.contract_name;
                     this.draftForm.customer = res.data.customer;
                     this.draftForm.start_time = res.data.start_time;
                     this.draftForm.end_time = res.data.end_time;
@@ -216,16 +219,20 @@ scope">
 
             postMsg(){
                 this.dialog2Visible = false;
-                const roww = this.tableData.find((item) => item.index === this.row.id);
+                // const roww = this.tableData.find((item) => item.index === this.row.id);
                 //alert("待审批="+this.$url + "/contract/watch")
                 this.$axios({
-                    url:this.$url + "/contract/watch",
+                    // url:this.$url + "/contract/watch",
+                    url:this.$url + '/operator/approve',
                     method: 'post',
                     data: {
+                        types : 1,
                         user_name : this.$store.state.userName,
-                        contract_name : roww.contract_name,
+                        contract_name : this.row.contract_name,
                         token: this.$store.state.token,
                         id: this.row.id,
+                        // 人为同意
+                        accept : 1
                     },
                     transformRequest: [function (data) {
                         let ret = '';
@@ -246,18 +253,18 @@ scope">
                     }
 
                     if (res.data.state === 0) {
-                        var data = [];
-                        res.data.data.forEach((item, index) => {
-                            data.push({
-                                index: index + 1,
-                                date: item.beginTime,
-                                contract_name: item.name,
-                                id: item.id
-                            })
-                        });
+                        // var data = [];
+                        // res.data.data.forEach((item, index) => {
+                        //     data.push({
+                        //         index: index + 1,
+                        //         date: item.beginTime,
+                        //         contract_name: item.name,
+                        //         id: item.id
+                        //     })
+                        // });
 
-                        this.tableData = data;
-
+                        // this.tableData = data;
+                        this.tableData.splice(this.index, this.row.index)
                         this.$notify({
                             title: '成功',
                             message: '审批成功！',

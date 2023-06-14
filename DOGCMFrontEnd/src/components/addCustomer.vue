@@ -79,9 +79,11 @@
                     if (valid) {
                         alert("tianjia"+this.$url + "/customer/addCustomer"+this.cusForm.name)
                         this.$axios({
-                            url: this.$url + "/customer/addCustomer",
+                            // url: this.$url + "/customer/addCustomer",
+                            url:this.$url + '/add/customer',
                             method: 'post',
                             data: {
+                                types : 1,
                                 token: this.$store.state.token,
                                 name: this.cusForm.name,
                                 address: this.cusForm.address,
