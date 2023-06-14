@@ -1,7 +1,10 @@
 <template>
 
-    <el-form style="left: 20%;" ref="cusForm" :model="cusForm" :rules="rules" label-position="left" label-width="80px">
+    <!-- <el-form style="left: 20%;" ref="cusForm" :model="cusForm" :rules="rules" label-position="left" label-width="80px"> -->
+    <el-form style="width: 300px; margin: 0 auto;" ref="cusForm" :model="cusForm" :rules="rules" label-position="left" label-width="80px">
+ 
         <el-form-item label="客户名称" prop="name">
+            
             <el-input v-model="cusForm.name"></el-input>
         </el-form-item>
         <el-form-item label="客户电话" prop="tel">
@@ -35,6 +38,8 @@
 </template>
 
 <script>
+//import { addListener } from 'process';
+
     export default {
         mounted(){
             alert(this.$url + "/customer/addCustomer");
@@ -72,6 +77,7 @@
 
                 this.$refs["cusForm"].validate((valid) => {
                     if (valid) {
+                        alert("tianjia"+this.$url + "/customer/addCustomer"+this.cusForm.name)
                         this.$axios({
                             url: this.$url + "/customer/addCustomer",
                             method: 'post',

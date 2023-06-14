@@ -77,10 +77,18 @@ scope">
                     <el-input v-model="draftForm.name"></el-input>
                 </el-form-item>
                 <el-form-item label="客户:" prop="userName">
-                    <el-input v-model="draftForm.userName"></el-input>
+                    <el-input v-model="draftForm.customer"></el-input>
                 </el-form-item>
                 <el-form-item label="活动时间" prop="date">
-                    <el-date-picker
+                    <el-col :span="12">
+                    <el-input v-model="draftForm.start_time"></el-input>
+                    </el-col>
+                    <el-col :span="12">
+                    <el-input v-model="draftForm.end_time"></el-input>
+                    </el-col>
+                    <!-- <el-input v-model="draftForm.start_time"></el-input> -->
+                </el-form-item>
+                    <!-- <el-date-picker
                             v-model="draftForm.date"
                             type="daterange"
                             align="right"
@@ -89,8 +97,8 @@ scope">
                             value-format="yyyy-MM-dd"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期">
-                    </el-date-picker>
-                </el-form-item>
+                    </el-date-picker> -->
+                
 
                 <el-form-item label="合同内容" prop="info">
                     <el-input type="textarea" :autosize="{minRows:3, maxRows:6}" v-model="draftForm.info"></el-input>
@@ -117,6 +125,7 @@ scope">
     /* eslint-disable no-console */
 
     import EditContract from "@/components/EditContract";
+//import { it } from "node:test";
 //import { addListener } from "process";
 
     export default {
@@ -149,11 +158,15 @@ scope">
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 
                 }).then(res => {
-
+                    //查看所有数据
                     res.data.contracts.forEach((item, index) => {
                         data.push({
                             index: index + 1,
-                            date: item.beginTime,
+                            content:item.content,
+                            start_time: item.start_time,
+                            //end_time: item.end_time,
+                            //content:item.content,
+                            // date: item.beginTime,
                             contract_name: item.name,
                             id: item.id
                         })
@@ -172,6 +185,8 @@ scope">
                 index: -1,
                 row: -1,
                 draftForm: {
+                    start_time:'2003-5-9',
+                    end_time:'2099-5-7',
                     name: '',
                     userName: '',
                     date: '',
@@ -234,6 +249,8 @@ scope">
                 if (res.data.state === 0) {
                     this.draftForm.name = res.data.name;
                     this.draftForm.userName = res.data.customer;
+                    this.draftForm.customer = res.data.customer;
+                    this.draftForm.start_time = res.data.start_time;
                     const date = [];
                     date[0] = res.data.beginTime;
                     date[1] = res.data.endTime;

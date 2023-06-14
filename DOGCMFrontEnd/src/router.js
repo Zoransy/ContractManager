@@ -87,6 +87,11 @@ export default new Router({
                     component: draft
                 },
                 {
+                    path: 'addCustomer',
+                    name: '添加用户',
+                    component: () => import('./components/addCustomer.vue'),
+                },
+                {
                     path: 'uncommitted',
                     name: '待定稿合同',
                     component: () => import('./components/UnCommittedContract.vue')

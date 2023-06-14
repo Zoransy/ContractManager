@@ -1,23 +1,29 @@
 // mock.js
 import Mock from 'mockjs'
 
-// 模拟合同数据
+// 模拟合同数据 列表!!!!!!!!
 const contractData = {
     'id|+1': 1,
-    'name': '@ctitle',
-    'customer': '@cname',
-    'beginTime': '@date',
-    'endTime': '@date',
-    'content': '@cparagraph'
+    'name': '这是详细的吗',
+    //'customer': '@cname',
+    // 'beginTime': '',
+    //'endTime': '',
+    'start_time': '2003-05-01',
+    'end_time': '2023-11-11',
+    // 'end_time': '',
+    'content': '帅帅帅!!!',
+    'customer':'王文'
 }
-const SigncontractData = {
-    'id|+1': 1,
-    'name': '签订合同数据',
-    'customer': '@cname',
-    'beginTime': '@date',
-    'endTime': '@date',
-    'content': '@cparagraph'
-}
+// const SigncontractData = {
+//     'id|+1': 1,
+//     'name': '@ctitle',
+//     'customer': '@cname',
+//     // 'beginTime': '',
+//     // 'endTime': '',
+//     'start_time': '',
+//     // 'end_time': '',
+//     'content': 'contenting'
+// }
 
 // 拦截请求并返回模拟数据 http://localhost:10087/contract/selectContractByType
 Mock.mock("http://localhost:10087/contract/selContract", 'post', (options) => {
@@ -39,7 +45,7 @@ Mock.mock("http://localhost:10087/contract/selContract", 'post', (options) => {
             code: token,
             message: 'success',
             state: 0,
-            ...SigncontractData
+            ...contractData
         }
     else
         return {

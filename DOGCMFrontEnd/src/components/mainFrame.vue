@@ -2,7 +2,7 @@
     <el-container style="width: 100%;height: 100%; top: 0; bottom: 0;">
         <el-header style="padding: 0">
 
-            <el-menu  class="el-menu-mainBar" mode="horizontal"
+            <el-menu  class="el-menu-mainBar" mode="horizontal" menu-align="end"
                      background-color= "rgba(255, 255, 255, 0.5)" text-color="#000000" :router=true active-text-color="#5c76eb" border-color="rgba(255, 255, 255, 0.5)">
                 <el-menu-item v-show="false">
                     <el-button class="foldButton" :icon="myIcon" type="text"
@@ -12,10 +12,19 @@
                                @click="clickFold"></el-button>
                 </el-menu-item>
 
+                
+
                 <el-menu-item class="main-submenu" index="login">
                     <template slot="title">退出登录</template>
                 </el-menu-item>
 
+                <!-- <el-menu-item class="main-submenu" index="5">
+                    <template slot="title">增加客户</template>
+                </el-menu-item> -->
+                <el-menu-item class="main-submenu" index="addcustomer">
+                    <template slot="title">添加客户</template> 
+                </el-menu-item>
+                    <!-- <el-menu-item index="sign">添加客户</el-menu-item> -->
                 <el-submenu class="main-submenu" index="4">
                     <template slot="title">合同签订</template>
                     <el-menu-item index="sign">待签订合同</el-menu-item>
@@ -52,6 +61,7 @@
                         class="el-menu-vertical"
                         style="height: 100%"
                         :collapse="isFold">
+                    
                     <el-menu-item index="1">
                         <i class="el-icon-document-add"></i>
                         <span slot="title">起草合同</span>
@@ -68,6 +78,10 @@
                         <i class="el-icon-setting"></i>
                         <span slot="title">流程查询</span>
                     </el-menu-item>
+                    <!-- <el-menu-item index="5">
+                        <i class="el-icon-customer-add"></i>
+                        <span slot="title">添加客户</span>
+                    </el-menu-item> -->
                 </el-menu>
             </el-aside>
 

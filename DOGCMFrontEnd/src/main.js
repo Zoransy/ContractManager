@@ -14,6 +14,7 @@ import './mock/UnCommitted.js'
 import './mock/signmoc.js'
 import './mock/contractwatch.js'
 import './mock/contractsign.js'
+import './mock/addC.js'
 // import 'element-ui/lib/theme-chalk/index.css';
 //
 
