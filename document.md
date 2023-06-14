@@ -1,9 +1,8 @@
 # 登录注册界面
 pass
 ## 操作员
-111
-
 ### 添加用户
+> url=add/customer
 1. 前端传递值 data{
                 cusForm: {
                     name: '',
@@ -17,8 +16,18 @@ pass
                 }
 2. 后端返回state=0 成功，1-失败 
 
-#### 创建草稿
-1.前端传递
+#### 起草(已测试)
+
+1.1 起草前
+> url = operator/draft
+request method = **get**
+我会传给：customers: []代表着所有客户的名字
+
+> url = operator/draft
+request method = **post**
+前端需要传给我：contract_name : , customer :, start_time ; , end_time : , content : , file_name : (暂时不用管), user_name :,
+我会传回：state : 0（成功）, 1(失败，合同的名字不能重复)
+2.1 前端传递
 data: {
         token: this.$store.state.token,
         contract_name: this.draftForm.contract_name,
@@ -30,7 +39,7 @@ data: {
         file_name:this.draftForm.file
 },////但是文件传输好像有问题
 2. 后端返回state=0 成功，其他-失败 
-#### 会签
+#### 会签(已测试)
 > url = operator/counter
 request method = **get**
 前端需要传给我： user_name： 当前用户的名字
@@ -39,9 +48,11 @@ request method = **get**
 > url = operator/counter
 request method = **post**
 前端点击合同名字后面的**会签**然后前端自己跳转界面但是url的是我前面提及的url，然后点击完成之后给次url发送post请求，同时给后端传参:
-contract_name : 合同名字， content ： 会签的内容
+user_name : 用户的名字
+contract_name : 合同名字
+content ： 会签的内容
 
-#### 定稿
+#### 定稿(已测试)
 > url = oprator/finalize
 request method = **get**
 前端需要传给我：user_name : 登录此用户的名字
@@ -58,7 +69,7 @@ request method = **get**
 request method = **post**
 前端需要传入的值为：contract_name: 合同的名字， content ：更改之后的起草的内容（我们现在默认就是我们的定稿只能修改起草的内容不能更改文件）
 
-#### 审核
+#### 审核(已测试)
 > url = operator/approve
 reqeust method = **get**
 前端需要传给我：user_nane: 登录此用户的名字
@@ -66,8 +77,7 @@ reqeust method = **get**
 
 > url = operator/approve
  request method = **post**
- 前端需要传给我： user_name : 用户的名字, contract_name : 合同的名字, accep
- t : 0 | 1 0表示拒绝，1表示同意， content : 建议
+ 前端需要传给我： user_name : 用户的名字, contract_name : 合同的名字, accept : 0 | 1 0表示拒绝，1表示同意， content : 建议
 
 #### 签订
 > url = operator/sign
@@ -108,3 +118,30 @@ request method = **get**
 > url = manager/contribute
 request method = **post**
 前端点击完成，传给后端: user_name : 用户的名字, isDraft : 表示的是否被分配起草 0 | 1, isAcounter: 0 | 1, isApprove : 0 | 1, isSign : 0 | 1
+
+#### 管理员查看每个合同的状态
+- 合同的状态：
+    1. 待分配（起草之后就是待分配）
+    2. 待会签（就是起草分配合同之后就是）
+    3. 待定稿（会签之后）
+    4. 待审核（定稿之后）
+    5. 待签订（签订之后）
+> url = manager/checkContractState
+request method = **post**
+后端传给的值：contracts : []所有的名字， start_times : []位置对应的合同的开始时间, end_times : [], state : -1 (待分配), 0（待会签）， 1（待定稿）， 2（待审核）， 3（待签订）， 4（全部已完成）
+
+#### 管理员分配角色
+##### 点击分配角色按钮
+> url = role/distribute_click
+request method = **post**
+前端需要传给的：user_name : 用户的名字
+后端传回的值 : user_name_list : [] 返回一个数组，里面是能被分配角色的用户名字
+              user_roleID_list : [] 返回一个数组，里面是当前的用户角色
+
+##### 用户被赋予了新的角色
+> url = role/distribute_change
+request method = **post**
+前端需要传给的：user_name : 用户的名字
+               user_new_roleID : 用户新的角色类型 
+               为了方便起见 我们这里的角色类型有三种 管理员 操作员 普通用户
+后端传回的值： 在操作之后 operateState : 0(代表失败)|1（代表成功）
