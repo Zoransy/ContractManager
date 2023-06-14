@@ -68,7 +68,7 @@
             const generateData = () => {
                 const data = [];
                 this.$axios({
-                    url: this.$url + "/user/selectAllRight",
+                    url: this.$url + "/role/distribute_click",
                     method: 'post',
                     data: {
                         token: this.$store.state.token,
@@ -83,14 +83,15 @@
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(res => {
                     this.loadData(res);
-                    res.data.manager_entities.forEach((item, index) => {
+                    window.console.log(res.data);
+                    res.data.item.forEach((item) => {
                         data.push({
-                            label: item.name,
-                            key: item.name,
+                            label: item.user_name,
+                            key: item.user_ID,
                             // pinyin: pinyin[index]
                         });
-                        if (item.rol_id === 1) {
-                            this.value.push(index);
+                        if (item.user_RoleID === 2) {
+                            this.value.push(item.user_ID);
                         }
                     })
                 });
@@ -105,7 +106,6 @@
                 resData: [],
                 value: [],
                 data: generateData(),
-
             }
         },
         mounted: function () {
@@ -144,7 +144,7 @@
                 if (direction === "right") {
                     window.console.log(movedKeys);
                     this.$axios({
-                        url: this.$url + "/user/addRootList",
+                        url: this.$url + "/role/distribute_change_left_to_right",
                         method: 'post',
                         data: {
                             token: this.$store.state.token,
@@ -162,7 +162,7 @@
                 }
                 if (direction === "left") {
                     this.$axios({
-                        url: this.$url + "/user/addUserList",
+                        url: this.$url + "/role/distribute_change_right_to_left",
                         method: 'post',
                         data: {
                             token: this.$store.state.token,
