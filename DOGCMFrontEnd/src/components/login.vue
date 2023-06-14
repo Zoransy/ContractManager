@@ -113,6 +113,7 @@
 
             loginProcess() {
                 if (this.state === 0) {
+                    this.$store.state.userName = this.form.name;
                     if (this.group === 0) {
                         this.$router.push('/mainFrame')
                     }
@@ -142,6 +143,7 @@
                 }
             },
             clickRegister() {
+                
                 //实现路由跳转 注册页面
                 this.$router.push("/register")
             }

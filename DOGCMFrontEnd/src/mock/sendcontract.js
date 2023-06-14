@@ -11,7 +11,8 @@ const customers = Mock.mock({
 
 // 拦截请求并返回模拟数据
 Mock.mock("http://localhost:10087/customer/selectAllCustomer", 'post', (options) => {
-    // 解析请求参数
+    // 解析请求参数 起草合同
+    alert("customer/selectAllCustomer")
     const params = new URLSearchParams(options.body)
     const token = params.get('token')
     // 验证token是否有效

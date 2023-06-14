@@ -10,7 +10,22 @@ import './mock/loginmock.js'
 import './mock/sendcontract.js'
 import './mock/watchcontract.js'
 import './mock/watchcontractdetail.js'
+import './mock/UnCommitted.js'
+import './mock/signmoc.js'
+import './mock/contractwatch.js'
+import './mock/contractsign.js'
 // import 'element-ui/lib/theme-chalk/index.css';
+//
+
+// 1.待定稿 http://localhost:10087/contract/selectContractByType
+// 2.待会签 http://localhost:10087/contract/selectContractByType
+// 3.已会签 http://localhost:10087/contract/selectContractByType
+
+// 4.待审批
+// 5.已审批 http://localhost:10087/contract/selectContractByType 
+
+// 6.待签订 http://localhost:10087/contract/selectContractByType
+// 7.已签订 http://localhost:10087/contract/selectContractByType
 
 Vue.config.productionTip = false;
 

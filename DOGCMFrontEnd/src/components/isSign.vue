@@ -129,12 +129,15 @@ scope">
         name: "isSign",
         data() {
             //constructs = [];
+            //alert("已签订"+this.$url + '/contract/selectContractByType');
             const generateData = () => {
                 const data = [];
                 this.$axios({
                     url: this.$url + "/contract/selectContractByType",
                     method: 'post',
                     data: {
+                        matter :7,
+                        userName:this.$store.userName,
                         // token: this.$store.state.token,
                         id:this.$store.userName,
                         token: this.$store.state.token,
@@ -153,7 +156,7 @@ scope">
 
                 }).then(res => {
 
-                    res.data.data.forEach((item, index) => {
+                    res.data.contracts.forEach((item, index) => {
                         data.push({
                             index: index + 1,
                             date: item.beginTime,
@@ -249,6 +252,9 @@ scope">
                     url:this.$url + "/contract/selContract",
                     method: 'post',
                     data: {
+                        contract_name:row.contract_name,
+                        matter :7,
+                        userName:this.$store.userName,
                         token: this.$store.state.token,
                         id: this.row.id,
                     },
@@ -277,14 +283,15 @@ scope">
                 }
 
                 if (res.data.state === 0) {
-                    this.draftForm.name = res.data.data[0].name;
-                    this.draftForm.userName = res.data.data[0].customer;
+                    this.draftForm.name = res.data.name;
+                    this.draftForm.userName = res.data.customer;
                     const date = [];
-                    date[0] = res.data.data[0].beginTime;
-                    date[1] = res.data.data[0].endTime;
+                    date[0] = res.data.beginTime;
+                    date[1] = res.data.endTime;
                     this.draftForm.date = date;
-                    this.draftForm.info = res.data.data[0].content;
+                    this.draftForm.info = res.data.content;
                 }
+                this.dialogVisible = false;
 
                 // console.log("test",this.draftForm)
             },

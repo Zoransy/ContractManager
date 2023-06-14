@@ -65,7 +65,8 @@ scope">
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialog2Visible = false">取 消</el-button>
-                <el-button type="primary" @click="postMsg">确 定</el-button>
+                <!-- 修改了参数scope.$index, scope.row -->
+                <el-button type="primary" @click="postMsg()">确 定</el-button>
             </div>
         </el-dialog>
 
@@ -116,17 +117,23 @@ scope">
     /* eslint-disable no-console */
 
     import EditContract from "@/components/EditContract";
+//import { addListener } from "process";
 
     export default {
         name: 'UnCommittedContract',
         components: {EditContract},
         data() {
+            //alert("待定稿 "+this.$url + "/contract/selectContractByType")
             const generateData = () => {
                 const data = [];
+                
                 this.$axios({
                     url: this.$url + "/contract/selectContractByType",
                     method: 'post',
                     data: {
+                        //contract_name:roww.contract_name,
+                        matter :1,
+                        userName:this.$store.userName,
                         // token: this.$store.state.token,
                         token: this.$store.state.token,
                         type: 'uncommitted'
@@ -143,7 +150,7 @@ scope">
 
                 }).then(res => {
 
-                    res.data.data.forEach((item, index) => {
+                    res.data.contracts.forEach((item, index) => {
                         data.push({
                             index: index + 1,
                             date: item.beginTime,
@@ -178,6 +185,7 @@ scope">
                 this.index = index;
                 this.row = row;
                 console.log(index, row);
+                //alert("定稿完成");
 
 
             },
@@ -185,13 +193,18 @@ scope">
             handleWatch(index, row) {
                 this.index = index;
                 this.row = row;
-
+                const roww = this.tableData.find((item) => item.index === this.row.id);
+                //roww.contract_name
+                alert("前端要看"+this.$store.state.token+" **"+roww.contract_name)//+this.$refs.contracts.value)//+this.contracts[this.row.id]this.draftForm.name
 
                 this.$axios({
                     url:this.$url + "/contract/selContract",
                     method: 'post',
                     data: {
-                        token: this.$store.state.token,
+                        contract_name : roww.contract_name,
+                        matter :1,//待定稿
+                        userName:this.$store.userName,
+                        token: this.$store.state.token,//123456
                         id: this.row.id,
                     },
                     transformRequest: [function (data) {
@@ -219,25 +232,37 @@ scope">
                 }
 
                 if (res.data.state === 0) {
-                    this.draftForm.name = res.data.data[0].name;
-                    this.draftForm.userName = res.data.data[0].customer;
+                    this.draftForm.name = res.data.name;
+                    this.draftForm.userName = res.data.customer;
                     const date = [];
-                    date[0] = res.data.data[0].beginTime;
-                    date[1] = res.data.data[0].endTime;
+                    date[0] = res.data.beginTime;
+                    date[1] = res.data.endTime;
                     this.draftForm.date = date;
-                    this.draftForm.info = res.data.data[0].content;
+                    this.draftForm.info = res.data.content;
                 }
-
-                console.log("test",this.draftForm)
+                this.dialogVisible = false;
+                //alert("UCC"+this.draftForm)
+                //console.log("test",this.draftForm)
             },
 
             postMsg(){
+                alert("post="+this.$url + "/contract/commit")
+                //前端[object Object] undefined 111index, row
+                //前端undefined undefined 111
+                //前端[object Object]  222
+                const roww = this.tableData.find((item) => item.index === this.row.id);//contract_name : roww.contract_name,
+                alert("前端"+this.$store.state.token+"* "+this.row.id+"["+this.$store.state.userName+"]"+" ["+roww.contract_name+"] "+this.msg)
                 this.$axios({
+                    
                     url:this.$url + "/contract/commit",
                     method: 'post',
                     data: {
+                        
+                        user_name : this.$store.state.userName,
+                        contract_name : roww.contract_name,
+                        content :this.msg,
                         token: this.$store.state.token,
-                        id: this.row.id,
+                        id: this.row.id,//第一行第二行
                         msg: this.msg,
                     },
                     transformRequest: [function (data) {
@@ -291,7 +316,7 @@ scope">
             comment() {
                 // this.$router.push('/CommentBox');
                 this.$prompt('定稿意见', '提示', {
-                    confirmButtonText: '确定',
+                    confirmButtonText: '确定11',
                     cancelButtonText: '取消'
                 }).then(({value}) => {
                     this.$message({

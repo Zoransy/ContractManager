@@ -68,7 +68,7 @@ scope">
 <!--                </el-form-item>-->
 <!--            </el-form>-->
             <div slot="footer" class="dialog-footer">
-                <el-button @click="dialog2Visible = false">取 消</el-button>
+                <el-button @click="dialog2Visible = false">拒 绝</el-button>
                 <el-button type="primary" @click="postMsg">确 定</el-button>
             </div>
         </el-dialog>
@@ -116,9 +116,9 @@ scope">
 
 <script>
     export default {
-        mounted() {//一进入页面就发送user_name数据，获取待会签的信息
-            this.sendDataToBackend();
-        },
+        // mounted() {//一进入页面就发送user_name数据，获取待会签的信息
+        //     this.sendDataToBackend();
+        // },
 
         name: "counterSign",
 
@@ -126,10 +126,14 @@ scope">
             // contracts:[];
             const generateData = () => {
                 const data = [];
+                //alert("前端：待会签"+this.$url + "/contract/selectContractByType")
                 this.$axios({
+                    
                     url: this.$url + "/contract/selectContractByType",
                     method: 'post',
                     data: {
+                        matter :2,
+                        userName:this.$store.userName,
                         // token: this.$store.state.token,
                         token: this.$store.state.token,
                         type: 'counterSign'
@@ -146,7 +150,7 @@ scope">
 
                 }).then(res => {
 
-                    res.data.data.forEach((item, index) => {
+                    res.data.contracts.forEach((item, index) => {
                         data.push({
                             index: index + 1,
                             date: item.beginTime,
@@ -187,6 +191,7 @@ scope">
                             url: "http://localhost:10087/mainFrame/counterSign",
                             method: 'post',
                             data: {
+                                //contract_name:
                                 user_name: this.$store.state.userName
                             },
                             //这个不能删！！
@@ -276,11 +281,14 @@ scope">
                 this.index = index;
                 this.row = row;
 
-
+                //点击查看
                 this.$axios({
                     url:this.$url + "/contract/selContract",
                     method: 'post',
                     data: {
+                        contract_name:row.contract_name,
+                        matter :2,
+                        userName:this.$store.userName,
                         token: this.$store.state.token,
                         id: this.row.id,
                     },
@@ -309,23 +317,35 @@ scope">
                 }
 
                 if (res.data.state === 0) {
-                    this.draftForm.name = res.data.data[0].name;
-                    this.draftForm.userName = res.data.data[0].customer;
+                    this.draftForm.name = res.data.name;
+                    this.draftForm.userName = res.data.customer;
                     const date = [];
-                    date[0] = res.data.data[0].beginTime;
-                    date[1] = res.data.data[0].endTime;
+                    date[0] = res.data.beginTime;
+                    date[1] = res.data.endTime;
                     this.draftForm.date = date;
-                    this.draftForm.info = res.data.data[0].content;
+                    this.draftForm.info = res.data.content;
+                    // this.draftForm.name = res.data.data[0].name;
+                    // this.draftForm.userName = res.data.data[0].customer;
+                    // const date = [];
+                    // date[0] = res.data.data[0].beginTime;
+                    // date[1] = res.data.data[0].endTime;
+                    // this.draftForm.date = date;
+                    // this.draftForm.info = res.data.data[0].content;
                 }
-
+                this.dialogVisible = false;
 
             },
 
             postMsg(){
+                alert("待会签="+this.$url + "/contract/counter")
+                const roww = this.tableData.find((item) => item.index === this.row.id);
                 this.$axios({
                     url:this.$url + "/contract/counter",
                     method: 'post',
                     data: {
+                        user_name : this.$store.state.userName,
+                        contract_name : roww.contract_name,
+                        
                         token: this.$store.state.token,
                         id: this.row.id,
                     },

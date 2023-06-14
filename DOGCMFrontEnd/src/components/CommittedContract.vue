@@ -52,6 +52,7 @@ scope">
     export default {
         name: 'CommittedContract',
         data() {
+            //没显示 不知道 alert("不知道"+this.$url + "/contract/selectCommittedContract")
             const generateData = () => {
                 const data = [];
                 this.$axios({

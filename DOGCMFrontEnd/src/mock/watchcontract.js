@@ -3,7 +3,7 @@ import Mock from 'mockjs'
 
 // 模拟客户数据
 const contracts = Mock.mock({
-    'contracts|3': [{
+    'contracts|5': [{
         'id|+1': 1,
         'name': '@cname',
         'date': "2023.6.13"
@@ -12,12 +12,20 @@ const contracts = Mock.mock({
 
 // 拦截请求并返回模拟数据
 Mock.mock("http://localhost:10087/contract/selectContractByType", 'post', (options) => {
-    // 解析请求参数
+    // 解析请求参数 查看user的全部（某一项)合同
+    //alert("后端响应/contract/selectContractByType")
+    
     const params = new URLSearchParams(options.body)
+    const matter = params.get('matter')
     const token = params.get('token')
     const sign = params.get("type")
     //alert("hhhhhhhhhh")
     // 返回成功响应
+    if(matter === '1'||matter === '2'){
+       
+        alert("待定稿/会签")
+    }
+    //     alert("已签订")
     return {
         code: token,
         message: 'success',
@@ -36,7 +44,7 @@ Mock.mock("http://localhost:10087/contract/selectContractByType", 'post', (optio
             else {
                 return {
                     id: item.id,
-                    contract_name: item.name,
+                    name: item.name,
                     date:item.date,
                     index: index
                 }

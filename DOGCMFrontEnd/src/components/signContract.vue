@@ -114,12 +114,15 @@ scope">
     export default {
         name: "signContract",
         data() {
+            //alert("待签订 "+this.$url + "/contract/selectContractByType")
             const generateData = () => {
                 const data = [];
                 this.$axios({
                     url: this.$url + "/contract/selectContractByType",
                     method: 'post',
                     data: {
+                        matter :6,
+                        userName:this.$store.userName,
                         // token: this.$store.state.token,
                         token: this.$store.state.token,
                         type: 'sign'
@@ -180,11 +183,14 @@ scope">
                 this.index = index;
                 this.row = row;
 
-
+                alert("待签定前端"+row.contract_name)
                 this.$axios({
                     url:this.$url + "/contract/selContract",
                     method: 'post',
                     data: {
+                        matter : 6,
+                        contract_name: this.row.contract_name,
+                        userName:this.$store.userName,
                         token: this.$store.state.token,
                         id: this.row.id,
                     },
@@ -213,23 +219,30 @@ scope">
                 }
 
                 if (res.data.state === 0) {
-                    this.draftForm.name = res.data.data[0].name;
-                    this.draftForm.userName = res.data.data[0].customer;
+                    this.draftForm.name = res.data.name;
+                    this.draftForm.userName = res.data.customer;
                     const date = [];
-                    date[0] = res.data.data[0].beginTime;
-                    date[1] = res.data.data[0].endTime;
+                    date[0] = res.data.beginTime;
+                    date[1] = res.data.endTime;
                     this.draftForm.date = date;
-                    this.draftForm.info = res.data.data[0].content;
+                    this.draftForm.info = res.data.content;
                 }
+                this.dialogVisible = false;
 
                 // console.log("test",this.draftForm)
             },
 
             postMsg(){
+                
+                const roww = this.tableData.find((item) => item.index === this.row.id);
+                alert("待签订="+this.$url +"/contract/sign"+"||name="+roww.contract_name)
                 this.$axios({
                     url:this.$url + "/contract/sign",
+                    
                     method: 'post',
                     data: {
+                        contract_name : roww.contract_name,
+                        user_name : this.$store.state.userName,
                         token: this.$store.state.token,
                         id: this.row.id,
                     },
