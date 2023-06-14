@@ -44,7 +44,7 @@
                     filter-placeholder="请输入用户名"
                     v-model="value"
                     :data="data"
-                    :titles="['用户', '管理员']"
+                    :titles="['操作员', '管理员']"
                     class="main-transfer"
                     @change="handleChange">
                 <el-button class="transfer-footer el-icon-minus" slot="left-footer" size="small" circle></el-button>
@@ -94,7 +94,6 @@
                         }
                     })
                 });
-
                 return data;
             };
             return {

@@ -7,11 +7,12 @@
                 <el-menu-item v-show="false">
                     <el-button class="foldButton" :icon="myIcon" type="text"
                                style="background-color: rgba(0, 0, 0, 0);
-                               border: 0px; height: 100%; width: 100%;
-                                padding-top: auto; padding-bottom: auto;"
+                               border: 0px; height: 100%; width: 100%;"
                                @click="clickFold"></el-button>
                 </el-menu-item>
-
+              <el-menu-item class="main-submenu" index="login">
+                <template slot="title">退出登录</template>
+              </el-menu-item>
                 <el-submenu class="main-submenu" index="4">
                     <template slot="title">合同签订</template>
                     <el-menu-item index="sign">待签订合同</el-menu-item>
@@ -37,10 +38,6 @@
                     <el-menu-item >已定稿合同</el-menu-item>
                     <el-menu-item index="1-1">流程查询合同</el-menu-item>
                 </el-submenu>
-              <el-menu-item class="main-submenu" index="login">
-                <template slot="title">退出登录</template>
-              </el-menu-item>
-
             </el-menu>
         </el-header>
 
@@ -82,8 +79,15 @@
 <script>
 
 
+    import fa from "element-ui/src/locale/lang/fa";
+
     export default {
         name: "mainFrame",
+      computed: {
+        fa() {
+          return fa
+        }
+      },
 
         data() {
             return {
@@ -115,7 +119,7 @@
         }
     }
 </script>
-
+<!--
 <style scoped>
 
 
@@ -128,7 +132,10 @@
         margin-top: 0;
     }
 
-
+    .el-menu-mainBar .is-active {
+      color: #ffffff;
+      background-color: rgb(0, 98, 204);
+    }
 </style>
 
 <style>
@@ -151,6 +158,81 @@
     .el-menu-mainBar i {
         color: #ffffff;
     }
+
+
+</style>
+-->
+<style scoped>
+
+
+.main-submenu {
+  float: right;
+}
+
+.main-submenu:focus {
+  color: white;
+}
+
+.main-submenu.is-active{
+  color: #ffffff;
+  background-color: rgb(0, 98, 204);
+}
+
+.el-menu-mainBar {
+  margin-left: 0;
+  margin-top: 0;
+}
+
+.el-menu-mainBar .is-active {
+  color: #ffffff;
+  background-color: rgb(0, 98, 204);
+}
+
+.main-transfer {
+  margin: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+  position: absolute;
+  background-color: white;
+  /*padding: 20px 20px 10px 20px;*/
+  border-radius: 10px;
+  box-shadow: 0px 15px 25px 0px rgba(0, 0, 0, 0.11);
+  padding: 15px;
+
+}
+</style>
+
+<style>
+/*.el-submenu__title i {*/
+/*    color: #ffffff;*/
+/*}*/
+
+.tac {
+  margin: 0;
+  height: 100%;
+}
+
+html, body {
+  margin: 0;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+}
+
+.el-menu-mainBar i {
+  color: #ffffff;
+}
+
+.el-menu-mainBar .is-active {
+  color: #ffffff;
+  background-color: rgb(0, 98, 204);
+}
+
+.el-menu--horizontal .el-menu-item:not(.is-disabled):focus {
+  color: #ffffff;
+}
 
 
 </style>

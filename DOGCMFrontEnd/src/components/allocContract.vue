@@ -3,7 +3,7 @@
         <el-table
                 :data="tableData.filter(data => !search ||
                 data.contract_name.toLowerCase().includes(search.toLowerCase()))"
-                style="width: 100%">
+                style="width: 95%; margin: auto; border-radius: 10px; transform: translateY(5%)">
             <el-table-column
                     label="序号"
                     prop="index">
@@ -117,7 +117,7 @@ scope">
                     }],
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(res => {
-                    res.data.data.forEach((item, index) => {
+                    res.data.contracts.forEach((item, index) => {
                         data.push({
                             index: index + 1,
                             date: item.beginTime,

@@ -9,6 +9,7 @@ import iscounterSign from "./components/iscounterSign";
 import isWatchContract from "@/components/isWatchContract";
 import isSign from "@/components/isSign";
 import login from "@/components/login.vue";
+//import permission from "@/components/permission.vue";
 
 Vue.use(Router);
 
