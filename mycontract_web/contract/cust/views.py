@@ -12,7 +12,8 @@ headers = {
 
 @csrf_exempt
 def add_cust(request):
-    if request.method == 'POST':
+    types = int(request.POST.get('types'))
+    if types == 1 :
         response = {**headers}
 
         cust_name = request.POST.get('name')

@@ -23,7 +23,8 @@ headers = {
 @csrf_exempt
 def login(request):
     # POST enter the body
-    if request.method == 'POST':
+    types = int(request.POST.get('types'))
+    if types == 1 :
         response = {**headers}
         user_name = request.POST.get('user')
         user_pwd = request.POST.get('passwd')

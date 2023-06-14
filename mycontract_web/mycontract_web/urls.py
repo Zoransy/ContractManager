@@ -48,6 +48,8 @@ urlpatterns = [
     path('manager/display/distribute', distribute),
     path('manager/operators', get_operators),
     path('manager/contribute', contribute),
+    path('manager/checkContractState', checkContractState),
+    path('manager/checkLog', checkLog),
 
     # manager distribute roles
     path('role/distribute_click', distribute_role_click),

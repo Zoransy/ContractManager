@@ -61,6 +61,16 @@ class Customer(models.Model):
     def __str__(self) -> str:
         return self.name
 
+class Log(models.Model):
+    # the operator's id
+    user = models.ForeignKey(to='User', to_field='id', on_delete=models.PROTECT)
+
+    # when he operates the contract
+    time = models.DateTimeField(auto_now_add=True)
+
+    # record the behaviour of the operator
+    behaviour = models.TextField()
+
 class Contract(models.Model):
     # contract name 
     name = models.CharField(max_length=50)

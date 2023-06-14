@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from contract.models import Contract, HaveAuthority, User, CounterSign, Approve, Sign
+from contract.models import Contract, HaveAuthority, User, CounterSign, Approve, Sign, Log
+from contract.methods.method import send
 
 
 headers = {
@@ -12,7 +13,8 @@ headers = {
 @csrf_exempt
 def search_contract(request):
     response = {**headers}
-    if request.method == 'POST':
+    types = int(request.POST.get('types'))
+    if types == 1:
         # user_name = request.POST.get('user_name')
         # convert the contract name I can search dimly the contract which is not finished that means state != 3
         contract_name = request.POST.get('contract_name')
@@ -31,7 +33,8 @@ def search_contract(request):
 def distribute(request):
     response = {**headers}
     # when click the 分配 跳转此界面 get request
-    if request.method == 'GET':
+    types = int(request.POST.get('types'))
+    if types == 0 :
         # contract_name = request.POST.get('contract_name')
         # return who can counter, approve, sign
         counters = []
@@ -64,15 +67,23 @@ def distribute(request):
         
         contract_id = Contract.objects.filter(name=contract_name).first().id
         for name in counter_names:
-            # print(name)
+            # send the email
+            email = User.objects.filter(name=name).first().email
+            send('待会签', '《%s》等待你会签'%(contract_name), email)
             user_id = User.objects.filter(name=name).first().id
             CounterSign.objects.create(user_id=user_id, contract_id=contract_id)
         
         for name in approve_names:
+            # # send the email
+            # email = User.objects.filter(name=name).first().email
+            # send('待审核', '{}等待你审核'%(contract_name), email)
             user_id = User.objects.filter(name=name).first().id
             Approve.objects.create(user_id=user_id, contract_id=contract_id)
 
         for name in sign_names:
+            # # send the email
+            # email = User.objects.filter(name=name).first().email
+            # send('待签订', '{}等待你签订'%(contract_name), email)
             user_id = User.objects.filter(name=name).first().id
             Sign.objects.create(user_id=user_id, contract_id=contract_id)
 
@@ -84,7 +95,8 @@ def distribute(request):
 @csrf_exempt
 def get_operators(request):
     response = {**headers}
-    if request.method == 'GET':
+    types = int(request.POST.get('types'))
+    if types == 0 :
         operators = []
         # get the all of operators
         query_set = User.objects.filter(roleID=1)
@@ -97,7 +109,8 @@ def get_operators(request):
 @csrf_exempt
 def contribute(request):
     response = {**headers}
-    if request.method == 'POST':
+    types = int(request.POST.get('types'))
+    if types == 1:
         user_name = request.POST.get('user_name')
         user_id = User.objects.filter(name=user_name).first().id
         draft_right = int(request.POST.get('isDraft'))
@@ -131,7 +144,53 @@ def contribute(request):
                 HaveAuthority.objects.create(user_id=user_id, right_id=6)
         
         return JsonResponse(response)
+
+@csrf_exempt       
+def checkContractState(request):
+    response = {**headers}
+    types = int(request.POST.get('types'))
+    if types == 1 :
+        contracts = []
+        start_times = []
+        end_times = []
+        states = []
+
+        # get all of the contract's information
+        query_set = Contract.objects.all()
+        for row in query_set:
+            contracts.append(row.name)
+            start_times.append(row.start_time)
+            end_times.append(row.end_time)
+            # judge the contract state of distribution
+            if row.distribute == 0:
+                states.append(-1)
+            else :
+                states.append(row.state)
         
+        response['contracts'] = contracts
+        response['start_times'] = start_times
+        response['end_times'] = end_times
+        response['states'] = states
         
-        
+        return JsonResponse(response)
+
+@csrf_exempt
+def checkLog(request):
+    response = {**headers}
+    types = int(request.POST.get('types'))
+    if types == 0 :
+        operators = []
+        times = []
+        behaviours = []
+
+        # get all of the logs
+        query_set = Log.objects.all()
+        for row in query_set:
+            operators.append(User.objects.filter(id=row.user_id).first().name)
+            times.append(row.time)
+            behaviours.append(row.behaviour)
+        response['operators'] = operators
+        response['times'] = times
+        response['behaviours'] = behaviours
+        return JsonResponse(response)
         
