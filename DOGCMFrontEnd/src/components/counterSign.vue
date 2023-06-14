@@ -82,8 +82,16 @@ scope">
                 <el-form-item label="客户:" prop="userName">
                     <el-input v-model="draftForm.customer"></el-input>
                 </el-form-item>
-                <el-form-item label="活动时间" prop="date">
-                    <el-date-picker
+                <el-form-item label="活动时间" prop="name">
+                    <el-col :span="12">
+                    <el-input v-model="draftForm.start_time"></el-input>
+                    </el-col>
+                    <el-col :span="12">
+                    <el-input v-model="draftForm.end_time"></el-input>
+                    </el-col>
+                    <!-- <el-input v-model="draftForm.start_time"></el-input> -->
+                </el-form-item>
+                    <!-- <el-date-picker
                             v-model="draftForm.date"
                             type="daterange"
                             align="right"
@@ -92,8 +100,8 @@ scope">
                             value-format="yyyy-MM-dd"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期">
-                    </el-date-picker>
-                </el-form-item>
+                    </el-date-picker> -->
+                
 
                 <el-form-item label="合同内容" prop="info">
                     <el-input type="textarea" :autosize="{minRows:3, maxRows:6}" v-model="draftForm.info"></el-input>
@@ -174,6 +182,9 @@ scope">
                 row: -1,
                 draftForm: {
                     name: '',
+                    start_time: '',
+                    customer:'',
+                    end_time: '1010-10-10',
                     userName: this.$store.userName,//'',
                     date: '',
                     info: '',
@@ -318,12 +329,14 @@ scope">
 
                 if (res.data.state === 0) {
                     this.draftForm.name = res.data.name;
-                    this.draftForm.userName = res.data.customer;
+                    this.draftForm.customer = res.data.customer;
                     const date = [];
-                    date[0] = res.data.beginTime;
-                    date[1] = res.data.endTime;
+                    date[0] = res.data.start_time;
+                    date[1] = res.data.end_time;
+                    this.draftForm.start_time = res.data.start_time;
                     this.draftForm.date = date;
                     this.draftForm.info = res.data.content;
+                    this.draftForm.end_time = res.data.end_time;
                     // this.draftForm.name = res.data.data[0].name;
                     // this.draftForm.userName = res.data.data[0].customer;
                     // const date = [];
