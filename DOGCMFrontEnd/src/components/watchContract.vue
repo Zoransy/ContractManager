@@ -1,4 +1,5 @@
 <template>
+<!-- 待审批 -->
     <div>
         <el-table
                 :data="tableData.filter(data => !search ||
@@ -44,7 +45,7 @@ scope">
 
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialog2Visible = false">取 消</el-button>
-                <el-button type="primary" @click="postMsg">确 定</el-button>
+                <el-button type="primary" @click="postMsg" >确 定</el-button>
             </div>
         </el-dialog>
 
@@ -87,11 +88,14 @@ scope">
 
         data() {
             const generateData = () => {
+                //alert("待审批"+this.$url + "/contract/selectContractByType")
                 const data = [];
                 this.$axios({
                     url: this.$url + "/contract/selectContractByType",
                     method: 'post',
                     data: {
+                        matter :4,
+                        userName:this.$store.userName,
                         // token: this.$store.state.token,
                         token: this.$store.state.token,
                         type: 'watchContract'
@@ -111,8 +115,8 @@ scope">
                     res.data.contracts.forEach((item, index) => {
                         data.push({
                             index: index + 1,
-                            date: item.date,
-                            contract_name: item.contract_name,
+                            date: item.beginTime,
+                            contract_name: item.name,
                             id: item.id
                         })
                     })
@@ -154,6 +158,9 @@ scope">
                     url:this.$url + "/contract/selContract",
                     method: 'post',
                     data: {
+                        matter :4,
+                        contract_name:row.contract_name,
+                        userName:this.$store.userName,
                         token: this.$store.state.token,
                         id: this.row.id,
                     },
@@ -196,10 +203,15 @@ scope">
             },
 
             postMsg(){
+                this.dialog2Visible = false;
+                const roww = this.tableData.find((item) => item.index === this.row.id);
+                //alert("待审批="+this.$url + "/contract/watch")
                 this.$axios({
                     url:this.$url + "/contract/watch",
                     method: 'post',
                     data: {
+                        user_name : this.$store.state.userName,
+                        contract_name : roww.contract_name,
                         token: this.$store.state.token,
                         id: this.row.id,
                     },
