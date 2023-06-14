@@ -22,6 +22,8 @@ from contract.start.views import *
 from contract.operator.views import *
 from contract.cust.views import *
 
+from contract.role.views import *
+
 urlpatterns = [
     # path('admin/', admin.site.urls),
     # path('index/', views.index),
@@ -45,6 +47,10 @@ urlpatterns = [
     path('manager/display/search', search_contract),
     path('manager/display/distribute', distribute),
     path('manager/operators', get_operators),
-    path('manager/contribute', contribute)
+    path('manager/contribute', contribute),
+
+    # manager distribute roles
+    path('role/distribute_click', distribute_role_click),
+    path('role/distribute_change', distribute_role_change)
 
 ]
