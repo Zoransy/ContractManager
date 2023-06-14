@@ -42,5 +42,5 @@ def add_cust(request):
                                 postcode=cust_pcode,
                                 bank=cust_bank,
                                 account=cust_acnt)
-        response['state'] = 1
+        response['state'] = 0
         return JsonResponse(response)

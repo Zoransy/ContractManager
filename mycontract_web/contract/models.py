@@ -16,7 +16,7 @@ class User(models.Model):
     email = models.CharField(max_length=50, null=True)
     # operator is 1 and administrator is 2
     # could be 0 when it is 0, it is the new one
-    roleID = models.IntegerField(default=0)
+    roleID = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name
@@ -50,7 +50,7 @@ class Customer(models.Model):
     telephone = models.CharField(max_length=11)
     
     # postcode 
-    postcode = models.CharField(max_length=10)
+    postcode = models.CharField(max_length=50)
 
     # bank 
     bank = models.CharField(max_length=50)

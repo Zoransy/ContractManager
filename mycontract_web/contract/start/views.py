@@ -62,6 +62,7 @@ def login(request):
                 for row in query_right:
                     rights.append(row.right_id)
             response['right'] = rights
+            # print(response)
             return JsonResponse(response)
             
 @csrf_exempt

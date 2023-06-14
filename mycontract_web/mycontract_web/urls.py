@@ -34,6 +34,7 @@ urlpatterns = [
     # operator UI
     path('operator/draft', draft),
     path('operator/counter', counter),
+    path('Check', Check),
     path('operator/finalize/fill', finalize),
     path('operator/finalize', get_finalize),
     path('operator/approve', approve),
