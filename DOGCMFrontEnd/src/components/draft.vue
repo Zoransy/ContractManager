@@ -82,9 +82,11 @@
                 const data = [];
 
                 this.$axios({
-                    url: this.$url + "/customer/selectAllCustomer",
+                    // url: this.$url + "/customer/selectAllCustomer",
+                    url: this.$url + "/operator/draft",
                     method: 'post',
                     data: {
+                        types: 0,
                         token: this.$store.state.token,
                     },
                     transformRequest: [function (data) {
@@ -100,11 +102,13 @@
                     //window.console.log(res.data.customers)
                     res.data.customers.forEach((item, index) => {
                         //alert("已接收："+ item.id)
+                        window.console.log("Reci Customer"+item)
                         data.push({
-                            value: item.value,
-                            label: item.label,
+                            value: item,
+                            label: item,
                             index: index
                         });
+                        //window.console.log("Reci Customer2"+ data[0].value)
                     })
                 });
 
@@ -208,8 +212,8 @@
 
                         res.data.customers.forEach((item, index) => {
                             data.push({
-                                value: item.id,
-                                label: item.name,
+                                value: item,
+                                label: item,
                                 index: index
                             });
                         })
@@ -228,18 +232,20 @@
                     if (valid) {
 
                         // eslint-disable-next-line no-console
-                        console.log(this.draftForm);
+                        console.log(this.draftForm+this.draftForm.customer);
                         this.$axios({
-                            url:this.$url + "/contract/addContract",
+                            url: this.$url + "/operator/draft",
+                            // url:this.$url + "/contract/addContract",
                             method: 'post',
                             data: {
+                                types:1,
                                 token: this.$store.state.token,
                                 contract_name: this.draftForm.contract_name,
                                 customer: this.draftForm.customer,
                                 //customer_id: this.draftForm.userName,
                                 start_time: this.draftForm.date[0],
                                 end_time: this.draftForm.date[1],
-                                content: this.draftForm.info,
+                                content: this.draftForm.content,
                                 user_name:this.$store.state.userName ,//userName this.draftForm.
                                 file_name:this.draftForm.file
                                 

@@ -69,7 +69,7 @@ scope">
             </div>
         </el-dialog>
 
-        <el-dialog title="查看" :visible.sync="dialog3Visible">
+        <el-dialog title="查看" :visible.sync="dialog3Visible" append-to-body>
 
             <el-form ref="draftForm" :model="draftForm" label-position="left" label-width="85px">
                 <el-form-item label="合同名称:" prop="name">
@@ -119,11 +119,13 @@ scope">
             const generateData = () => {
                 const data = [];
                 this.$axios({
-                    url: this.$url + "/contract/selectContractByType",
+                    // url: this.$url + "/contract/selectContractByType",
+                    url:this.$url + '/operator/sign',
                     method: 'post',
                     data: {
+                        types : 0,
                         matter :6,
-                        userName:this.$store.userName,
+                        user_name:this.$store.state.userName,
                         // token: this.$store.state.token,
                         token: this.$store.state.token,
                         type: 'sign'
@@ -140,11 +142,11 @@ scope">
 
                 }).then(res => {
                     //window.console.log()
-                    res.data.contracts.forEach((item, index) => {
+                    res.data.signs.forEach((item, index) => {
                         data.push({
                             index: index + 1,
                             date: item.beginTime,
-                            contract_name: item.name,
+                            contract_name: item,
                             id: item.id
                         })
                     })
@@ -188,12 +190,13 @@ scope">
 
                 //alert("待签定前端"+row.contract_name)
                 this.$axios({
-                    url:this.$url + "/contract/selContract",
+                    // url:this.$url + "/contract/selContract",
+                    url:this.$url + '/Check',
                     method: 'post',
                     data: {
                         matter : 6,
                         contract_name: this.row.contract_name,
-                        userName:this.$store.userName,
+                        user_name:this.$store.state.userName,
                         token: this.$store.state.token,
                         id: this.row.id,
                     },
@@ -222,7 +225,7 @@ scope">
                 }
 
                 if (res.data.state === 0) {
-                    this.draftForm.name = res.data.name;
+                    this.draftForm.name = this.row.contract_name;
                     this.draftForm.customer = res.data.customer;
                     this.draftForm.start_time = res.data.start_time;
                     const date = [];
@@ -239,15 +242,18 @@ scope">
 
             postMsg(){
                 
-                const roww = this.tableData.find((item) => item.index === this.row.id);
+                // const roww = this.tableData.find((item) => item.index === this.row.id);
                 //alert("待签订="+this.$url +"/contract/sign"+"||name="+roww.contract_name)
                 this.$axios({
-                    url:this.$url + "/contract/sign",
+                    // url:this.$url + "/contract/sign",
+                    url:this.$url + '/operator/sign/fill',
                     
                     method: 'post',
                     data: {
-                        contract_name : roww.contract_name,
+                        types : 1,
+                        contract_name : this.row.contract_name,
                         user_name : this.$store.state.userName,
+                        content : '签订通过',
                         token: this.$store.state.token,
                         id: this.row.id,
                     },
@@ -271,18 +277,19 @@ scope">
 
                     if (res.data.state === 0) {
 
-                        var data = [];
-                        res.data.data.forEach((item, index) => {
-                            data.push({
-                                index: index + 1,
-                                date: item.beginTime,
-                                contract_name: item.name,
-                                id: item.id
-                            })
-                        });
+                        // var data = [];
+                        // res.data.data.forEach((item, index) => {
+                        //     data.push({
+                        //         index: index + 1,
+                        //         date: item.beginTime,
+                        //         contract_name: item,
+                        //         id: item.id
+                        //     })
+                        // });
 
-                        this.tableData = data;
-
+                        // this.tableData = data;
+                        this.tableData.splice(this.index, this.row.index)
+                        
                         this.$notify({
                             title: '成功',
                             message: '签订成功！',

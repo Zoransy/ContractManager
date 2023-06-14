@@ -74,6 +74,7 @@
                             
                             method: 'post',
                             data: {//提交id 密码
+                                types:1,//1post
                                 user: this.form.name,
                                 //passwd: this.$md5(this.form.passwd + this.$salt),
                                 passwd: this.form.passwd,
@@ -91,6 +92,7 @@
                             //     'Content-Type': 'application/x-www-form-urlencoded'
                             // }
                         }).then(res => {
+                            window.console.log("received"+res.data.state);
                             //alert('okk!');
                             this.text = "";
                             this.isLoading = true;
@@ -114,11 +116,11 @@
             loginProcess() {
                 if (this.state === 0) {
                     this.$store.state.userName = this.form.name;
-                    if (this.group === 0) {
+                    if (this.group === 1) {
                         this.$router.push('/mainFrame')
                     }
 
-                    if (this.group === 1) {
+                    if (this.group === 2) {
                         this.$router.push('/manager')
                     }
                 } else {

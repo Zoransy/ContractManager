@@ -103,7 +103,8 @@
                             data: {
                                 user: this.registerForm.name,
                                 email: this.registerForm.email,//邮箱
-                                passwd: this.$md5(this.registerForm.passwd + this.$salt)
+                                //passwd: this.$md5(this.registerForm.passwd + this.$salt)
+                                passwd : this.registerForm.passwd,
                             },
                             transformRequest: [function (data) {
                                 let ret = '';
@@ -122,7 +123,8 @@
                                     data: {
                                         user: this.registerForm.name,
                                         email: this.registerForm.email,
-                                        passwd: this.$md5(this.registerForm.passwd + this.$salt)
+                                        //passwd: this.$md5(this.registerForm.passwd + this.$salt)
+                                        passwd: this.registerForm.passwd,
                                     },
 
                                     transformRequest: [function (data) {

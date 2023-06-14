@@ -69,7 +69,7 @@ scope">
 <!--            </el-form>-->
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialog2Visible = false">拒 绝</el-button>
-                <el-button type="primary" @click="postMsg">确 定</el-button>
+                <el-button type="primary" @click="postMsg()">确 定</el-button>
             </div>
         </el-dialog>
 
@@ -78,6 +78,7 @@ scope">
             <el-form ref="draftForm" :model="draftForm" label-position="left" label-width="85px">
                 <el-form-item label="合同名称:" prop="name">
                     <el-input v-model="draftForm.name"></el-input>
+                    <!-- draftForm.name -->
                 </el-form-item>
                 <el-form-item label="客户:" prop="userName">
                     <el-input v-model="draftForm.customer"></el-input>
@@ -104,7 +105,7 @@ scope">
                 
 
                 <el-form-item label="合同内容" prop="info">
-                    <el-input type="textarea" :autosize="{minRows:3, maxRows:6}" v-model="draftForm.info"></el-input>
+                    <el-input type="textarea" :autosize="{minRows:3, maxRows:6}" v-model="draftForm.content"></el-input>
                 </el-form-item>
 
             </el-form>
@@ -135,13 +136,17 @@ scope">
             const generateData = () => {
                 const data = [];
                 //alert("前端：待会签"+this.$url + "/contract/selectContractByType")
+                window.console.log("fasong"+this.$store.state.userName)
                 this.$axios({
-                    
-                    url: this.$url + "/contract/selectContractByType",
+
+                    // url: this.$url + "/contract/selectContractByType",
+                    url: this.$url + "/operator/counter",
                     method: 'post',
+                    
                     data: {
+                        types : 0,
                         matter :2,
-                        userName:this.$store.userName,
+                        user_name:this.$store.state.userName,
                         // token: this.$store.state.token,
                         token: this.$store.state.token,
                         type: 'counterSign'
@@ -162,7 +167,7 @@ scope">
                         data.push({
                             index: index + 1,
                             date: item.beginTime,
-                            contract_name: item.name,
+                            contract_name: item,//name
                             id: item.id
                         })
                     })
@@ -289,17 +294,19 @@ scope">
             },
 
             handleWatch(index, row) {
+                window.console.log("watching: "+row.contract_name);
                 this.index = index;
                 this.row = row;
 
                 //点击查看
                 this.$axios({
-                    url:this.$url + "/contract/selContract",
+                    // url:this.$url + "/contract/selContract",
+                    url:this.$url + "/Check",
                     method: 'post',
                     data: {
-                        contract_name:row.contract_name,
+                        contract_name:this.row.contract_name,
                         matter :2,
-                        userName:this.$store.userName,
+                        user_name:this.$store.state.userName,
                         token: this.$store.state.token,
                         id: this.row.id,
                     },
@@ -328,14 +335,15 @@ scope">
                 }
 
                 if (res.data.state === 0) {
-                    this.draftForm.name = res.data.name;
+                    window.console.log(res.data.name+res.data.customer+res.data.start_time);
+                    this.draftForm.name = this.row.contract_name;//res.data.name;
                     this.draftForm.customer = res.data.customer;
                     const date = [];
                     date[0] = res.data.start_time;
                     date[1] = res.data.end_time;
                     this.draftForm.start_time = res.data.start_time;
-                    this.draftForm.date = date;
-                    this.draftForm.info = res.data.content;
+                    //this.draftForm.date = date;
+                    this.draftForm.content = res.data.content;
                     this.draftForm.end_time = res.data.end_time;
                     // this.draftForm.name = res.data.data[0].name;
                     // this.draftForm.userName = res.data.data[0].customer;
@@ -351,17 +359,23 @@ scope">
 
             postMsg(){
                 //alert("待会签="+this.$url + "/contract/counter")
-                const roww = this.tableData.find((item) => item.index === this.row.id);
+                //this.row = row;
+                window.console.log("huiqianiiiiiiiiiii");
+                window.console.log("post:"+this.row.contract_name);
+                //const roww = this.tableData.find((item) => item.index === this.row.id);
                 this.$axios({
-                    url:this.$url + "/contract/counter",
+                    // url:this.$url + "/contract/counter",
+                    url:this.$url + "/operator/counter",
                     method: 'post',
                     data: {
+                        types : 1, //1
                         user_name : this.$store.state.userName,
-                        contract_name : roww.contract_name,
-                        
+                        contract_name : this.row.contract_name,
+                        content:" xxx",
                         token: this.$store.state.token,
                         id: this.row.id,
                     },
+                    
                     transformRequest: [function (data) {
                         let ret = '';
                         for (let it in data) {
@@ -371,7 +385,7 @@ scope">
                     }],
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(res => {
-
+                    
                     if (res.data.state === -1) {
                         this.$notify({
                             title: '失败',
@@ -381,24 +395,27 @@ scope">
                     }
 
                     if (res.data.state === 0) {
+                        // generateData();
+                          
+                        // var data = [];
+                        // res.data.data.forEach((item, index) => {
+                        //     data.push({
+                        //         index: index + 1,
+                        //         date: item.beginTime,
+                        //         contract_name: item.name,
+                        //         id: item.id
+                        //     })
+                        // });
 
-                        var data = [];
-                        res.data.data.forEach((item, index) => {
-                            data.push({
-                                index: index + 1,
-                                date: item.beginTime,
-                                contract_name: item.name,
-                                id: item.id
-                            })
-                        });
-
-                        this.tableData = data;
-
+                        // this.tableData = data;
+                        this.tableData.splice(this.index, this.row.index)
                         this.$notify({
                             title: '成功',
                             message: '会签成功！',
                             type: "success"
                         })
+                      
+                        this.dialog2Visible = false;
                     }
 
                     this.msg = ''
