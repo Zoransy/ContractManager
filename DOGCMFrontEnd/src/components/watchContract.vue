@@ -45,7 +45,7 @@ scope">
 
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialog2Visible = false">取 消</el-button>
-                <el-button type="primary" @click="postMsg">确 定</el-button>
+                <el-button type="primary" @click="postMsg" >确 定</el-button>
             </div>
         </el-dialog>
 
@@ -203,8 +203,9 @@ scope">
             },
 
             postMsg(){
+                this.dialog2Visible = false;
                 const roww = this.tableData.find((item) => item.index === this.row.id);
-                alert("待审批="+this.$url + "/contract/watch")
+                //alert("待审批="+this.$url + "/contract/watch")
                 this.$axios({
                     url:this.$url + "/contract/watch",
                     method: 'post',

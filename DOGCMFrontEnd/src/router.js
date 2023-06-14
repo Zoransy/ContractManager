@@ -64,6 +64,7 @@ export default new Router({
                 {
                     path: 'login',
                     name: '退出登录',
+                    redirect: "/login",
                     component: () => import('./components/login.vue'),
                 },
             ]
@@ -77,6 +78,7 @@ export default new Router({
                 {
                     path: 'login',
                     name: '退出登录',
+                    redirect: "/login",
                     component: () => import('./components/login.vue'),
                 },
                 {

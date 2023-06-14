@@ -60,7 +60,7 @@ scope">
             <edit-contract></edit-contract>
         </el-dialog>
 
-        <el-dialog title="确认会签" :visible.sync="dialog2Visible">
+        <el-dialog title="确认会签" :visible.sync="dialog2Visible" append-to-body>
 
 <!--            <el-form >-->
 <!--                <el-form-item label="定稿意见">-->
@@ -73,7 +73,7 @@ scope">
             </div>
         </el-dialog>
 
-        <el-dialog title="查看合同" :visible.sync="dialog3Visible">
+        <el-dialog title="查看合同" :visible.sync="dialog3Visible" append-to-body>
 
             <el-form ref="draftForm" :model="draftForm" label-position="left" label-width="85px">
                 <el-form-item label="合同名称:" prop="name">
@@ -182,7 +182,7 @@ scope">
         },
         methods: {
             sendDataToBackend() {
-                alert("user="+this.$store.state.userName)
+                //alert("user="+this.$store.state.userName)
                 // 构造请求的数据
                 // const requestData = {
                 //     user_name:this.$store.state.userName, // 从状态管理中获取用户名
@@ -337,7 +337,7 @@ scope">
             },
 
             postMsg(){
-                alert("待会签="+this.$url + "/contract/counter")
+                //alert("待会签="+this.$url + "/contract/counter")
                 const roww = this.tableData.find((item) => item.index === this.row.id);
                 this.$axios({
                     url:this.$url + "/contract/counter",

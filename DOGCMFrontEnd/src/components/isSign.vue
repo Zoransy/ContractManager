@@ -58,11 +58,11 @@ scope">
         </el-table>
 
 
-        <el-dialog title="修改合同" :visible.sync="dialogVisible">
+        <el-dialog title="修改合同" :visible.sync="dialogVisible" append-to-body>
             <edit-contract></edit-contract>
         </el-dialog>
 
-        <el-dialog title="确认会签" :visible.sync="dialog2Visible">
+        <el-dialog title="确认会签" :visible.sync="dialog2Visible" append-to-body>
 
             <!--            <el-form >-->
             <!--                <el-form-item label="定稿意见">-->
@@ -75,7 +75,7 @@ scope">
             </div>
         </el-dialog>
 
-        <el-dialog title="查看" :visible.sync="dialog3Visible">
+        <el-dialog title="查看" :visible.sync="dialog3Visible" append-to-body>
 
             <el-form ref="draftForm" :model="draftForm" label-position="left" label-width="85px">
                 <el-form-item label="合同名称:" prop="name">
@@ -228,7 +228,7 @@ scope">
                     //     });
                     // });
                 });
-                this.alert(this.constructs[0]);
+                //this.alert(this.constructs[0]);
                 // .catch(error => {
                 //     console.error(error);
                 // });

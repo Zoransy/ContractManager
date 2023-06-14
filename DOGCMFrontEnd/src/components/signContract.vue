@@ -52,11 +52,11 @@ scope">
         </el-table>
 
 
-        <el-dialog title="修改合同" :visible.sync="dialogVisible">
+        <el-dialog title="修改合同" :visible.sync="dialogVisible" append-to-body>
             <edit-contract></edit-contract>
         </el-dialog>
 
-        <el-dialog title="确认签订" :visible.sync="dialog2Visible">
+        <el-dialog title="确认签订" :visible.sync="dialog2Visible" append-to-body>
 
             <!--            <el-form >-->
             <!--                <el-form-item label="定稿意见">-->
@@ -183,7 +183,7 @@ scope">
                 this.index = index;
                 this.row = row;
 
-                alert("待签定前端"+row.contract_name)
+                //alert("待签定前端"+row.contract_name)
                 this.$axios({
                     url:this.$url + "/contract/selContract",
                     method: 'post',
@@ -235,7 +235,7 @@ scope">
             postMsg(){
                 
                 const roww = this.tableData.find((item) => item.index === this.row.id);
-                alert("待签订="+this.$url +"/contract/sign"+"||name="+roww.contract_name)
+                //alert("待签订="+this.$url +"/contract/sign"+"||name="+roww.contract_name)
                 this.$axios({
                     url:this.$url + "/contract/sign",
                     

@@ -52,14 +52,14 @@ scope">
         </el-table>
 
 
-        <el-dialog title="修改合同" :visible.sync="dialogVisible">
+        <el-dialog title="修改合同" :visible.sync="dialogVisible" append-to-body>
             <edit-contract></edit-contract>
         </el-dialog>
 
-        <el-dialog title="定稿意见" :visible.sync="dialog2Visible">
+        <el-dialog title="定稿意见" :visible.sync="dialog2Visible" append-to-body>
 
             <el-form >
-                <el-form-item label="定稿意见">
+                <el-form-item label="意见详情:">
                     <el-input type="textarea" :rows="3" v-model="msg"></el-input>
                 </el-form-item>
             </el-form>
@@ -70,7 +70,7 @@ scope">
             </div>
         </el-dialog>
 
-        <el-dialog title="定稿意见" :visible.sync="dialog3Visible">
+        <el-dialog title="查看合同" :visible.sync="dialog3Visible" append-to-body>
 
             <el-form ref="draftForm" :model="draftForm" :rules="rule" label-position="left" label-width="85px">
                 <el-form-item label="合同名称:" prop="name">
@@ -195,7 +195,7 @@ scope">
                 this.row = row;
                 const roww = this.tableData.find((item) => item.index === this.row.id);
                 //roww.contract_name
-                alert("前端要看"+this.$store.state.token+" **"+roww.contract_name)//+this.$refs.contracts.value)//+this.contracts[this.row.id]this.draftForm.name
+                //alert("前端要看"+this.$store.state.token+" **"+roww.contract_name)//+this.$refs.contracts.value)//+this.contracts[this.row.id]this.draftForm.name
 
                 this.$axios({
                     url:this.$url + "/contract/selContract",
@@ -246,12 +246,12 @@ scope">
             },
 
             postMsg(){
-                alert("post="+this.$url + "/contract/commit")
+                //alert("post="+this.$url + "/contract/commit")
                 //前端[object Object] undefined 111index, row
                 //前端undefined undefined 111
                 //前端[object Object]  222
                 const roww = this.tableData.find((item) => item.index === this.row.id);//contract_name : roww.contract_name,
-                alert("前端"+this.$store.state.token+"* "+this.row.id+"["+this.$store.state.userName+"]"+" ["+roww.contract_name+"] "+this.msg)
+                //alert("前端"+this.$store.state.token+"* "+this.row.id+"["+this.$store.state.userName+"]"+" ["+roww.contract_name+"] "+this.msg)
                 this.$axios({
                     
                     url:this.$url + "/contract/commit",
