@@ -61,7 +61,11 @@ export default new Router({
                     name: '起草',
                     component: allocContract,
                 },
-
+                {
+                    path: 'login',
+                    name: '退出登录',
+                    component: () => import('./components/login.vue'),
+                },
             ]
         },
         {
@@ -70,6 +74,11 @@ export default new Router({
             redirect: '/mainFrame/draft',
             component: () => import('./components/mainFrame.vue'),
             children: [
+                {
+                    path: 'login',
+                    name: '退出登录',
+                    component: () => import('./components/login.vue'),
+                },
                 {
                     path: 'draft',
                     name: '起草合同',

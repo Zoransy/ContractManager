@@ -3,7 +3,7 @@
         <el-header style="padding: 0">
 
             <el-menu  class="el-menu-mainBar" mode="horizontal"
-                     background-color= "#A9A9A9" text-color="#ffffff" :router=true active-text-color="#ffffff">
+                     background-color= "rgba(255, 255, 255, 0.5)" text-color="#000000" :router=true active-text-color="#5c76eb" border-color="rgba(255, 255, 255, 0.5)">
                 <el-menu-item v-show="false">
                     <el-button class="foldButton" :icon="myIcon" type="text"
                                style="background-color: rgba(0, 0, 0, 0);
@@ -12,9 +12,9 @@
                                @click="clickFold"></el-button>
                 </el-menu-item>
 
-                <el-submenu class="main-submenu" index="5">
-                    <template slot="title">首页</template>
-                </el-submenu>
+                <el-menu-item class="main-submenu" index="login">
+                    <template slot="title">退出登录</template>
+                </el-menu-item>
 
                 <el-submenu class="main-submenu" index="4">
                     <template slot="title">合同签订</template>
@@ -38,8 +38,8 @@
                     <template slot="title">合同起草</template>
                     <el-menu-item index="draft" >起草合同</el-menu-item>
                     <el-menu-item index="uncommitted">待定稿合同</el-menu-item>
-<!--                    <el-menu-item >已定稿合同</el-menu-item>-->
-<!--                    <el-menu-item index="1-1">流程查询合同</el-menu-item>-->
+                    <el-menu-item >已定稿合同</el-menu-item>
+                    <el-menu-item index="1-1">流程查询合同</el-menu-item>
                 </el-submenu>
 
             </el-menu>

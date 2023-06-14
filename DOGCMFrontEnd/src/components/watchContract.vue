@@ -73,10 +73,8 @@ scope">
                 <el-form-item label="合同内容" prop="info">
                     <el-input type="textarea" :autosize="{minRows:3, maxRows:6}" v-model="draftForm.info"></el-input>
                 </el-form-item>
-
             </el-form>
             <div slot="footer" class="dialog-footer">
-
                 <el-button type="primary" @click="dialog3Visible = false">确 定</el-button>
             </div>
         </el-dialog>
@@ -147,6 +145,7 @@ scope">
             },
 
             handleWatch(index, row) {
+                //window.console.log(row.contract_name)
                 this.index = index;
                 this.row = row;
 
@@ -184,7 +183,6 @@ scope">
                 }
 
                 if (res.data.state === 0) {
-
                     this.draftForm.name = res.data.name;
                     this.draftForm.userName = res.data.customer;
                     const date = [];
