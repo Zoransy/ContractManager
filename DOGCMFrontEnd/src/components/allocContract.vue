@@ -173,10 +173,20 @@ scope">
               commituser = this.commitValue;
               signuser = this.watchValue;
               watchuser = this.signValue;
-              window.console.log("commit: "+commituser);
-              window.console.log("signuser: "+signuser);
-              window.console.log("watchuser: "+ watchuser)
-              this.$axios({
+              window.console.log("commit: "+commituser.length);
+              window.console.log("signuser: "+signuser.length);
+              window.console.log("watchuser: "+ watchuser.length)
+              if(signuser.length === 0 || commituser.length === 0 || watchuser.length === 0){
+                this.$notify({
+                        title: '失败',
+                        message: '分配合同人员失败！',
+                        type: "failed"
+                    })
+                this.dialog2Visible = false;
+              }
+              else{
+                
+                    this.$axios({
                 url: this.$url + "/manager/display/distribute",
                 method: 'post',
                 data: {
@@ -186,7 +196,7 @@ scope">
                   counter_names: commituser,
                   approve_names: watchuser,
                   sign_names: signuser,
-                  constract_name: this.row.constract_name,
+                  contract_name: this.row.contract_name,
                 },
                 transformRequest: [function (data) {
                   let ret = '';
@@ -197,6 +207,15 @@ scope">
                 }],
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
               });
+              this.tableData.splice(this.index, this.row.index);
+              this.dialog2Visible = false;
+              this.$notify({
+                        title: '成功',
+                        message: '分配合同人员成功！',
+                        type: "success"
+                    })
+              }
+              
             },
 
             closeDlg() {
