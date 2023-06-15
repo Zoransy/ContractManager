@@ -90,6 +90,11 @@
                     res.data.item.forEach((item) => {
                         if(res.data.right === 0){
                             isdisabled = true;
+                          this.$notify({
+                            title: '失败',
+                            message: '您没有该权限！',
+                            type: "failed"
+                          })
                         }
         
                         data.push({
