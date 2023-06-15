@@ -5,10 +5,10 @@
             <el-menu active-text-color="#5c76eb" default-active="/userManager" :router="true" class="el-menu-mainBar"
                      mode="horizontal"
                      background-color="rgba(255, 255, 255, 0.5)" text-color="#000000"  border-color="rgba(255, 255, 255, 0.5)">
-              <el-submenu class="main-submenu" index="login">
-                <template slot="title">{{this.$store.state.userName}}</template>
-                <el-menu-item slot="title">注销</el-menu-item>
-              </el-submenu>
+              <el-submenu class="main-submenu" index="logout">
+          <template slot="title">{{this.$store.state.userName}}</template>
+          <el-menu-item index='login'>注销</el-menu-item>
+        </el-submenu>
               <el-menu-item v-show="false">
                     <el-button class="foldButton" :icon="myIcon" type="text"
                                style="background-color: rgba(0, 0, 0, 0);
