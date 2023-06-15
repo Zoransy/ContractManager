@@ -42,37 +42,7 @@ scope">
             </el-table-column>
         </el-table>
         <el-dialog title="确认审批" :visible.sync="dialog2Visible" append-to-body>
-                        <el-form ref="draftForm" :model="draftForm" label-position="left" label-width="85px">
-                <el-form-item label="合同名称:" prop="name">
-                    <el-input v-model="draftForm.name"></el-input>
-                </el-form-item>
-                <el-form-item label="客户:" prop="userName">
-                    <el-input v-model="draftForm.customer"></el-input>
-                </el-form-item>
-                <el-form-item label="起草时间" prop="date">
-                    <el-col :span="12">
-                    <el-input v-model="draftForm.start_time"></el-input>
-                    </el-col>
-                    <el-col :span="12">
-                    <el-input v-model="draftForm.end_time"></el-input>
-                    </el-col>
-                    <!-- <el-input v-model="draftForm.start_time"></el-input> -->
-                    <!-- <el-date-picker
-                            v-model="draftForm.date"
-                            type="daterange"
-                            align="right"
-                            unlink-panels
-                            range-separator="至"
-                            value-format="yyyy-MM-dd"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期">
-                    </el-date-picker> -->
-                </el-form-item>
-
-                <el-form-item label="合同内容" prop="info">
-                    <el-input type="textarea" :autosize="{minRows:3, maxRows:6}" v-model="draftForm.info"></el-input>
-                </el-form-item>
-            </el-form>
+            
                 <el-form >
                     <el-form-item label="审批意见详情:">
                         <el-input type="textarea" :rows="3" v-model="msg"></el-input>
