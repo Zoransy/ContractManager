@@ -30,7 +30,7 @@ scope">
         <template slot-scope="scope">
           <el-button
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)">分配
+              @click="handleEdit(scope.$index, scope.row)">分配合同
           </el-button>
         </template>
       </el-table-column>
@@ -109,7 +109,7 @@ scope">
                     url: this.$url + "/manager/display/search",/*ByProcess*/
                     method: 'post',
                     data: {
-                        types : 1, 
+                        types : 1,
                         token: this.$store.state.token,
                         process: 1
                     },

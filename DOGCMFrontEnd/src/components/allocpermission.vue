@@ -26,54 +26,23 @@ scope">
         <template slot-scope="scope">
           <el-button
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)">分配
+              @click="handleEdit(scope.$index, scope.row)">分配权限
           </el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <el-dialog @close="closeDlg" title="分配合同" :visible.sync="dialog2Visible" append-to-body>
+    <el-dialog @close="closeDlg" title="分配用户权限" :visible.sync="dialog2Visible" append-to-body>
       <el-container direction="vertical">
         <el-container>
-          <el-header>分配会签人</el-header>
           <el-main>
             <el-transfer
                 filterable
                 filter-placeholder="请输入用户名"
-                v-model="commitValue"
-                :data="counterData"
-                :titles="['待分配人员', '已分配人员列表']"
-                class="main-transfer"
-                disabled="toLeftDisable">
-            </el-transfer>
-          </el-main>
-        </el-container>
-
-        <el-container>
-          <el-header>分配审批人</el-header>
-          <el-main>
-            <el-transfer
-                filterable
-                filter-placeholder="请输入用户名"
-                v-model="watchValue"
-                :data="approveData"
-                :titles="['待分配人员', '已分配人员列表']"
+                v-model="permissionValue"
+                :data="permissionData1"
+                :titles="['权限列表', '授予权限']"
                 class="main-transfer">
-            </el-transfer>
-          </el-main>
-        </el-container>
-
-        <el-container>
-          <el-header>分配签订人</el-header>
-          <el-main>
-            <el-transfer
-                filterable
-                filter-placeholder="请输入用户名"
-                v-model="signValue"
-                :data="signData"
-                :titles="['待分配人员', '已分配人员列表']"
-                class="main-transfer">
-
             </el-transfer>
           </el-main>
         </el-container>
@@ -93,8 +62,15 @@ scope">
 
 <script>
 
+import permission from "@/components/permission.vue";
+
 export default {
   name: "allocContract",
+  computed: {
+    permission() {
+      return permission
+    }
+  },
 
   data() {
     const generateData = () => {
@@ -127,14 +103,35 @@ export default {
           })
         })
       })
-
       return data;
     };
 
+    const generatePermission = () =>{
+      const pData = [];
+      pData.push({
+        label: '定稿及起草权限',
+        key: 3,
+      })
+      pData.push({
+        label: '会签权限',
+        key: 4,
+      })
+      pData.push({
+        label: '签订权限',
+        key: 5,
+      })
+      pData.push({
+        label: '审批权限',
+        key: 6,
+      })
+      //window.console.log("pData:"+pData[0].label+pData[0].key);
+      return pData;
+    }
 
     return {
       search: '',
       tableData: generateData(),
+      permissionData1: generatePermission(),
       dialogVisible: false,
       dialog2Visible: false,
       dialog3Visible: false,
@@ -142,12 +139,11 @@ export default {
       msg: '',
       index: -1,
       row: -1,
-
+      permissionValue: [],
       resData: [],
       commitValue: [],
       watchValue: [],
       signValue: [],
-      permissionData: [],
       counterData: [],
       signData: [],
       approveData: [],
@@ -158,19 +154,6 @@ export default {
 
   methods: {
     sendData(){
-      window.console.log("hhh");
-      let commituser;
-      let signuser;
-      let watchuser;
-      commituser = [];
-      signuser = [];
-      watchuser = [];
-      commituser = this.commitValue;
-      signuser = this.watchValue;
-      watchuser = this.signValue;
-      window.console.log("commit: "+commituser);
-      window.console.log("signuser: "+signuser);
-      window.console.log("watchuser: "+ watchuser)
       this.$axios({
         url: this.$url + "/manager/display/distribute",
         method: 'post',
@@ -178,10 +161,8 @@ export default {
           types : 1,
           token: this.$store.state.token,
           con_id: this.row.id,
-          counter_names: commituser,
-          approve_names: watchuser,
-          sign_names: signuser,
-          constract_name: this.row.contract_name,
+          permissions: this.permissionData1,
+          user_name: this.row.user_name
         },
         transformRequest: [function (data) {
           let ret = '';
@@ -195,13 +176,13 @@ export default {
     },
 
     closeDlg() {
-      this.permissionData = [];
+      //this.permissionData = [];
       this.commitValue = [];
       this.watchValue = [];
       this.signValue = [];
       this.dialog2Visible = false;
       // eslint-disable-next-line no-console
-      console.log(this.permissionData);
+      //console.log(this.permissionData);
     },
 
     handleEdit(index, row) {
