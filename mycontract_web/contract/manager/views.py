@@ -43,53 +43,61 @@ def distribute(request):
         # return who can counter, approve, sign
         counters = []
         approves = []
-        sign = []
+        signs = []
         query_counter = HaveAuthority.objects.filter(right_id=4)
         query_approve = HaveAuthority.objects.filter(right_id=5)
         qeury_sign = HaveAuthority.objects.filter(right_id=6)
 
         for row in query_counter:
             name = User.objects.filter(id=row.user_id).first().name
-            counters.append(name)
+            counters.append({'name' : name, 
+                             'id' : row.user_id})
         for row in query_approve:
             name = User.objects.filter(id=row.user_id).first().name
-            approves.append(name)
+            approves.append({'name' : name,
+                             'id' : row.user_id})
         for row in qeury_sign:
             name = User.objects.filter(id=row.user_id).first().name
-            sign.append(name)
+            signs.append({'name' : name,
+                          'id' : row.user_id})
 
-        response['counter'] = counters
-        response['approve'] = approves
-        response['sign'] = sign
+        response['counters'] = counters
+        response['approves'] = approves
+        response['signs'] = signs
 
         return JsonResponse(response)
     else :
         contract_name = request.POST.get('contract_name')
-        counter_names = request.POST.getlist('counter_names')
-        approve_names = request.POST.getlist('approve_names')
-        sign_names = request.POST.getlist('sign_names')
+        print(contract_name)
+        counter_name = str(request.POST.get('counter_names'))
+        approve_name = str(request.POST.get('approve_names'))
+        sign_name = str(request.POST.get('sign_names'))
         
+        counter_names = counter_name.split(',')
+        approve_names = approve_name.split(',')
+        sign_names = sign_name.split(',')
+
         contract_id = Contract.objects.filter(name=contract_name).first().id
-        for name in counter_names:
+        for id in counter_names:
             # send the email
-            email = User.objects.filter(name=name).first().email
+            email = User.objects.filter(id=id).first().email
             send('待会签', '《%s》等待你会签'%(contract_name), email)
-            user_id = User.objects.filter(name=name).first().id
-            CounterSign.objects.create(user_id=user_id, contract_id=contract_id)
+            # user_id = User.objects.filter(name=name).first().id
+            CounterSign.objects.create(user_id=id, contract_id=contract_id)
         
-        for name in approve_names:
+        for id in approve_names:
             # # send the email
             # email = User.objects.filter(name=name).first().email
             # send('待审核', '{}等待你审核'%(contract_name), email)
-            user_id = User.objects.filter(name=name).first().id
-            Approve.objects.create(user_id=user_id, contract_id=contract_id)
+            # user_id = User.objects.filter(name=name).first().id
+            Approve.objects.create(user_id=id, contract_id=contract_id)
 
-        for name in sign_names:
+        for id in sign_names:
             # # send the email
             # email = User.objects.filter(name=name).first().email
             # send('待签订', '{}等待你签订'%(contract_name), email)
-            user_id = User.objects.filter(name=name).first().id
-            Sign.objects.create(user_id=user_id, contract_id=contract_id)
+            # user_id = User.objects.filter(name=name).first().id
+            Sign.objects.create(user_id=id, contract_id=contract_id)
 
         # change the distribution state of the contract
         Contract.objects.filter(name=contract_name).update(distribute=1)
@@ -105,7 +113,8 @@ def get_operators(request):
         # get the all of operators
         query_set = User.objects.filter(roleID=1)
         for row in query_set:
-            operators.append(row.name)
+            operators.append({'name' : row.name,
+                              'id': row.id})
 
         response['operators'] = operators
         return JsonResponse(response)
@@ -117,36 +126,42 @@ def contribute(request):
     if types == 1:
         user_name = request.POST.get('user_name')
         user_id = User.objects.filter(name=user_name).first().id
-        draft_right = int(request.POST.get('isDraft'))
-        acounter_right = int(request.POST.get('isAcounter'))
+        # draft_right = int(request.POST.get('isDraft'))
+        # acounter_right = int(request.POST.get('isAcounter'))
     
-        approve_right = int(request.POST.get('isApprove'))
-        sign_right = int(request.POST.get('isSign'))
+        # approve_right = int(request.POST.get('isApprove'))
+        # sign_right = int(request.POST.get('isSign'))
+        user_right = str(request.POST.get('permissions'))
+        user_rights = user_right.split(',')
         
         query_set = HaveAuthority.objects.filter(user_id=user_id)
         rights = []
         for row in query_set:
             rights.append(row.right_id)
 
-        # contribute the right
-        if draft_right == 1:
-            
-            # print(1)
-            if 3 not in rights:
-                HaveAuthority.objects.create(user_id=user_id, right_id=3)
-        if acounter_right == 1:
-            # print(2)
-            if 4 not in rights:
-                HaveAuthority.objects.create(user_id=user_id, right_id=4)
-        if approve_right == 1:
-            # print(3)
-            if 5 not in rights:
-                HaveAuthority.objects.create(user_id=user_id, right_id=5)
-        if sign_right == 1:
-            # print(4)
-            if 6 not in rights:
-                HaveAuthority.objects.create(user_id=user_id, right_id=6)
+        for right in user_rights:
+            if int(right) not in rights:
+                HaveAuthority.objects.create(user_id=user_id, right_id=int(right))
         
+        # contribute the right
+        # if draft_right == 1:
+            
+        #     # print(1)
+        #     if 3 not in rights:
+        #         HaveAuthority.objects.create(user_id=user_id, right_id=3)
+        # if acounter_right == 1:
+        #     # print(2)
+        #     if 4 not in rights:
+        #         HaveAuthority.objects.create(user_id=user_id, right_id=4)
+        # if approve_right == 1:
+        #     # print(3)
+        #     if 5 not in rights:
+        #         HaveAuthority.objects.create(user_id=user_id, right_id=5)
+        # if sign_right == 1:
+        #     # print(4)
+        #     if 6 not in rights:
+        #         HaveAuthority.objects.create(user_id=user_id, right_id=6)
+
         return JsonResponse(response)
 
 @csrf_exempt       
@@ -155,27 +170,21 @@ def checkContractState(request):
     types = int(request.POST.get('types'))
     if types == 1 :
         contracts = []
-        start_times = []
-        end_times = []
-        states = []
 
         # get all of the contract's information
         query_set = Contract.objects.all()
         for row in query_set:
-            contracts.append(row.name)
-            start_times.append(row.start_time)
-            end_times.append(row.end_time)
-            # judge the contract state of distribution
-            if row.distribute == 0:
-                states.append(-1)
+            if row.distribute == 0 : 
+                state = -1
             else :
-                states.append(row.state)
+                state = row.state
+            contracts.append({'name' : row.name,
+                              'start_time' : row.start_time,
+                              'end_time' : row.end_time,
+                              'state' : state})
         
         response['contracts'] = contracts
-        response['start_times'] = start_times
-        response['end_times'] = end_times
-        response['states'] = states
-        
+        # 待分配(-1)， 待会签(0)，待定稿(1)，待审批(2)，待签定(3)，已完成(4)
         return JsonResponse(response)
 
 @csrf_exempt
@@ -183,18 +192,14 @@ def checkLog(request):
     response = {**headers}
     types = int(request.POST.get('types'))
     if types == 0 :
-        operators = []
-        times = []
-        behaviours = []
+        logs = []
 
         # get all of the logs
         query_set = Log.objects.all()
         for row in query_set:
-            operators.append(User.objects.filter(id=row.user_id).first().name)
-            times.append(row.time)
-            behaviours.append(row.behaviour)
-        response['operators'] = operators
-        response['times'] = times
-        response['behaviours'] = behaviours
+            logs.append({'name' : User.objects.filter(id=row.user_id).first().name,
+                         'time' : row.time,
+                         'behaviour' : row.behaviour})
+        response['logs'] = logs
         return JsonResponse(response)
         
