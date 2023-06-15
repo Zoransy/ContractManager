@@ -36,7 +36,6 @@ scope">
       </el-table-column>
     </el-table>
 
-
     <el-dialog @close="closeDlg" title="分配合同" :visible.sync="dialog2Visible" append-to-body>
       <el-container direction="vertical">
         <el-container>
@@ -186,7 +185,7 @@ scope">
                   counter_names: commituser,
                   approve_names: watchuser,
                   sign_names: signuser,
-                  constract_name: this.row.constract_name,
+                  constract_name: this.row.contract_name,
                 },
                 transformRequest: [function (data) {
                   let ret = '';
