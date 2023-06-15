@@ -175,7 +175,28 @@ scope">
               watchuser = this.signValue;
               window.console.log("commit: "+commituser);
               window.console.log("signuser: "+signuser);
-              window.console.log("watchuser: "+ watchuser);
+              window.console.log("watchuser: "+ watchuser)
+              this.$axios({
+                url: this.$url + "/manager/display/distribute",
+                method: 'post',
+                data: {
+                  types : 1,
+                  token: this.$store.state.token,
+                  con_id: this.row.id,
+                  counter_names: commituser,
+                  approve_names: watchuser,
+                  sign_names: signuser,
+                  constract_name: this.row.constract_name,
+                },
+                transformRequest: [function (data) {
+                  let ret = '';
+                  for (let it in data) {
+                    ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                  }
+                  return ret
+                }],
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+              });
             },
 
             closeDlg() {
