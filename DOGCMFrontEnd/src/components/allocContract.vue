@@ -46,7 +46,7 @@ scope">
                 filterable
                 filter-placeholder="请输入用户名"
                 v-model="commitValue"
-                :data="permissionData"
+                :data="counterData"
                 :titles="['待分配人员', '已分配人员列表']"
                 class="main-transfer"
                 disabled="toLeftDisable"
@@ -62,7 +62,7 @@ scope">
                 filterable
                 filter-placeholder="请输入用户名"
                 v-model="watchValue"
-                :data="permissionData"
+                :data="approveData"
                 :titles="['待分配人员', '已分配人员列表']"
                 class="main-transfer"
                 @change="changeWatch">
@@ -78,7 +78,7 @@ scope">
                 filterable
                 filter-placeholder="请输入用户名"
                 v-model="signValue"
-                :data="permissionData"
+                :data="signData"
                 :titles="['待分配人员', '已分配人员列表']"
                 class="main-transfer"
                 @change="changeSign">
@@ -156,7 +156,10 @@ scope">
                 commitValue: [],
                 watchValue: [],
                 signValue: [],
-                permissionData: []
+                permissionData: [],
+                counterData: [],
+                signData: [],
+                approveData: [],
 
             }
         },
@@ -198,10 +201,14 @@ scope">
                 const generatePermissionData = () => {
 
                     const perData = [];
+                    const signData = [];
+                    const approveData = [];
+                    const counterData = [];
                     this.$axios({
-                        url: this.$url + "/contract/selectUserPermission",
+                        url: this.$url + "/manager/display/distribute",
                         method: 'post',
                         data: {
+                            types : 0,
                             token: this.$store.state.token,
                             con_id: this.row.id
                         },
@@ -216,43 +223,60 @@ scope">
                     }).then(res => {
 
                         // eslint-disable-next-line no-unused-vars
-                        res.data.users.forEach((item, index) => {
-                            perData.push({
-                                label: item.name,
-                                key: item.id,
-                            });
+                        // res.data.users.forEach((item) => {
+                        //     perData.push({
+                        //         label: item.name,
+                        //         key: item.id,
+                        //     });
+                            res.data.counters.forEach((item) => {
+                                counterData.push({
+                                    label: item.name,
+                                    key: item.id,
+                                })
+                            })
+                            res.data.approves.forEach((item) => {
+                                approveData.push({
+                                    label: item.name,
+                                    key: item.id,
+                                })
+                            })
+                            res.data.signs.forEach((item) => {
+                                signData.push({
+                                    label: item.name,
+                                    key: item.id,
+                                })
+                            })
+                            //  if (item.permissions === 1 ||
+                            //     item.permissions === 3 ||
+                            //     item.permissions === 5 ||
+                            //     item.permissions === 7) {
+                            //     this.commitValue.push(item.id)
+                            // }
 
-                            if (item.permissions === 1 ||
-                                item.permissions === 3 ||
-                                item.permissions === 5 ||
-                                item.permissions === 7) {
-                                this.commitValue.push(item.id)
-                            }
+                            // if (item.permissions === 2 ||
+                            //     item.permissions === 3 ||
+                            //     item.permissions === 6 ||
+                            //     item.permissions === 7) {
+                            //     this.watchValue.push(item.id)
+                            // }
 
-                            if (item.permissions === 2 ||
-                                item.permissions === 3 ||
-                                item.permissions === 6 ||
-                                item.permissions === 7) {
-                                this.watchValue.push(item.id)
-                            }
-
-                            if (item.permissions === 4 ||
-                                item.permissions === 5 ||
-                                item.permissions === 6 ||
-                                item.permissions === 7) {
-                                this.signValue.push(item.id)
-                            }
-                        });
+                            // if (item.permissions === 4 ||
+                            //     item.permissions === 5 ||
+                            //     item.permissions === 6 ||
+                            //     item.permissions === 7) {
+                            //     this.signValue.push(item.id)
+                            // }
+                        //});
 
 
 
                     });
                     // eslint-disable-next-line no-console
-                    console.log("0", this.commitValue);
+                    console.log("0",signData);
                     // eslint-disable-next-line no-console
-                    console.log("1", this.watchValue);
+                    console.log("1",counterData);
                     // eslint-disable-next-line no-console
-                    console.log("2", this.signValue);
+                    console.log("2",approveData);
                     return perData;
                 };
 
