@@ -14,9 +14,9 @@
 
 
 
-        <el-submenu class="main-submenu" index="login">
+        <el-submenu class="main-submenu" index="6">
           <template slot="title">{{this.$store.state.userName}}</template>
-          <el-menu-item slot="title">注销</el-menu-item>
+          <el-menu-item index='login'>注销</el-menu-item>
         </el-submenu>
 
         <!-- <el-menu-item class="main-submenu" index="5">
