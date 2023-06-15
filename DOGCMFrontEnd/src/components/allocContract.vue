@@ -49,8 +49,7 @@ scope">
                 :data="counterData"
                 :titles="['待分配人员', '已分配人员列表']"
                 class="main-transfer"
-                disabled="toLeftDisable"
-                @change="changeCommit">
+                disabled="toLeftDisable">
             </el-transfer>
           </el-main>
         </el-container>
@@ -64,9 +63,7 @@ scope">
                 v-model="watchValue"
                 :data="approveData"
                 :titles="['待分配人员', '已分配人员列表']"
-                class="main-transfer"
-                @change="changeWatch">
-
+                class="main-transfer">
             </el-transfer>
           </el-main>
         </el-container>
@@ -80,8 +77,7 @@ scope">
                 v-model="signValue"
                 :data="signData"
                 :titles="['待分配人员', '已分配人员列表']"
-                class="main-transfer"
-                @change="changeSign">
+                class="main-transfer">
 
             </el-transfer>
           </el-main>
@@ -199,7 +195,6 @@ scope">
                 this.dialog2Visible = true;
 
                 const generatePermissionData = () => {
-
                     const perData = [];
                     const signData = [];
                     const approveData = [];
@@ -267,9 +262,6 @@ scope">
                             //     this.signValue.push(item.id)
                             // }
                         //});
-
-
-
                     });
                     // eslint-disable-next-line no-console
                     console.log("0",signData);
@@ -277,11 +269,12 @@ scope">
                     console.log("1",counterData);
                     // eslint-disable-next-line no-console
                     console.log("2",approveData);
+                    this.signData = signData;
+                    this.approveData = approveData;
+                    this.counterData = counterData;
                     return perData;
                 };
-
                 this.permissionData = generatePermissionData();
-
             },
 
             changeCommit(value, direction, movedKeys) {
