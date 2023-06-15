@@ -175,27 +175,42 @@ scope">
               window.console.log("commit: "+commituser);
               window.console.log("signuser: "+signuser);
               window.console.log("watchuser: "+ watchuser)
-              this.$axios({
-                url: this.$url + "/manager/display/distribute",
-                method: 'post',
-                data: {
-                  types : 1,
-                  token: this.$store.state.token,
-                  con_id: this.row.id,
-                  counter_names: commituser,
-                  approve_names: watchuser,
-                  sign_names: signuser,
-                  constract_name: this.row.contract_name,
-                },
-                transformRequest: [function (data) {
-                  let ret = '';
-                  for (let it in data) {
-                    ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-                  }
-                  return ret
-                }],
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-              });
+              if(commituser.length === 0 || signuser.length === 0 || watchuser.length === 0){
+                this.$notify({
+                  title: '失败',
+                  message: '分配失败！',
+                  type: "success"
+                })
+              }
+              else {
+                this.$axios({
+                  url: this.$url + "/manager/display/distribute",
+                  method: 'post',
+                  data: {
+                    types : 1,
+                    token: this.$store.state.token,
+                    con_id: this.row.id,
+                    counter_names: commituser,
+                    approve_names: watchuser,
+                    sign_names: signuser,
+                    constract_name: this.row.contract_name,
+                  },
+                  transformRequest: [function (data) {
+                    let ret = '';
+                    for (let it in data) {
+                      ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                    }
+                    return ret
+                  }],
+                  headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                });
+                this.$notify({
+                  title: '成功',
+                  message: '分配成功！',
+                  type: "success"
+                })
+              }
+              this.dialog2Visible = false;
             },
 
             closeDlg() {

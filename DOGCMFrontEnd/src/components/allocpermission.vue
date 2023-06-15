@@ -161,7 +161,7 @@ export default {
           types : 1,
           token: this.$store.state.token,
           con_id: this.row.id,
-          permissions: this.permissionData1,
+          permissions: this.permissionValue,
           user_name: this.row.user_name
         },
         transformRequest: [function (data) {
@@ -173,6 +173,10 @@ export default {
         }],
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       });
+      this.dialog2Visible = false;
+      this.$alert{
+
+      }
     },
 
     closeDlg() {
