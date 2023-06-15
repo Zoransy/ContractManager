@@ -94,7 +94,9 @@
                             this.value.push(item.user_ID);
                         }
                     })
+                    window.console.log("data:"+ data[0].label+data[0].key);
                 });
+                
                 return data;
             };
             return {

@@ -116,11 +116,12 @@
                             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                         }).then(res => {
                             if (res.data.state === 0) {
-                                alert("qianduan 成功 "+this.$loginUrl);
+                                // alert("qianduan 成功 "+this.$loginUrl);
                                 this.$axios({
                                     url: this.$loginUrl,
                                     method: 'post',
                                     data: {
+                                        types : 1, 
                                         user: this.registerForm.name,
                                         email: this.registerForm.email,
                                         //passwd: this.$md5(this.registerForm.passwd + this.$salt)
@@ -139,7 +140,7 @@
                                     //     'Content-Type': 'application/x-www-form-urlencoded'
                                     // }
                                 }).then(res => {
-                                    alert("后端 "+res.data.state);
+                                    // alert("后端 "+res.data.state);
                                     this.state = res.data.state;
                                     this.$store.state.userName = this.registerForm.name;
                                     this.$store.state.email = this.registerForm.emial;
