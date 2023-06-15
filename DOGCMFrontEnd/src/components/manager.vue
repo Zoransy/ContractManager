@@ -5,9 +5,10 @@
             <el-menu active-text-color="#5c76eb" default-active="/userManager" :router="true" class="el-menu-mainBar"
                      mode="horizontal"
                      background-color="rgba(255, 255, 255, 0.5)" text-color="#000000"  border-color="rgba(255, 255, 255, 0.5)">
-              <el-menu-item class="main-submenu" index="login">
-                <template slot="title">退出登录</template>
-              </el-menu-item>
+              <el-submenu class="main-submenu" index="login">
+                <template slot="title">{{this.$store.state.userName}}</template>
+                <el-menu-item slot="title">注销</el-menu-item>
+              </el-submenu>
               <el-menu-item v-show="false">
                     <el-button class="foldButton" :icon="myIcon" type="text"
                                style="background-color: rgba(0, 0, 0, 0);
@@ -21,6 +22,9 @@
                 <el-menu-item class="main-submenu" index="permission">
                     <template slot="title">分配合同</template>
                 </el-menu-item>
+              <el-menu-item class="main-submenu" index="allocpermission">
+                <template slot="title">分配权限</template>
+              </el-menu-item>
 
             </el-menu>
         </el-header>

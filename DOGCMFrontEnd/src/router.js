@@ -69,6 +69,11 @@ export default new Router({
                     redirect: "/login",
                     component: () => import('./components/login.vue'),
                 },
+                {
+                    path: 'allocpermission',
+                    name: '分配权限',
+                    component: () => import('./components/allocpermission.vue'),
+                },
             ]
         },
         {

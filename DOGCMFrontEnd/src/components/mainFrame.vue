@@ -14,9 +14,10 @@
 
 
 
-        <el-menu-item class="main-submenu" index="login">
-          <template slot="title">退出登录</template>
-        </el-menu-item>
+        <el-submenu class="main-submenu" index="login">
+          <template slot="title">{{this.$store.state.userName}}</template>
+          <el-menu-item slot="title">注销</el-menu-item>
+        </el-submenu>
 
         <!-- <el-menu-item class="main-submenu" index="5">
             <template slot="title">增加客户</template>
