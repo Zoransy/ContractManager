@@ -57,12 +57,42 @@ scope">
         </el-dialog>
 
         <el-dialog title="确认签订" :visible.sync="dialog2Visible" append-to-body>
+                        <el-form ref="draftForm" :model="draftForm" label-position="left" label-width="85px">
+                <el-form-item label="合同名称:" prop="name">
+                    <el-input v-model="draftForm.name"></el-input>
+                </el-form-item>
+                <el-form-item label="客户:" prop="userName">
+                    <el-input v-model="draftForm.customer"></el-input>
+                </el-form-item>
+                <el-form-item label="起草时间" prop="date">
+                    <el-col :span="12">
+                    <el-input v-model="draftForm.start_time"></el-input>
+                    </el-col>
+                    <el-col :span="12">
+                    <el-input v-model="draftForm.end_time"></el-input>
+                    </el-col>
+                    <!-- <el-input v-model="draftForm.start_time"></el-input> -->
+                    <!-- <el-date-picker
+                            v-model="draftForm.date"
+                            type="daterange"
+                            align="right"
+                            unlink-panels
+                            range-separator="至"
+                            value-format="yyyy-MM-dd"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+                    </el-date-picker> -->
+                </el-form-item>
 
-            <!--            <el-form >-->
-            <!--                <el-form-item label="定稿意见">-->
-            <!--                    <el-input type="textarea" :rows="3" v-model="msg"></el-input>-->
-            <!--                </el-form-item>-->
-            <!--            </el-form>-->
+                <el-form-item label="合同内容" prop="info">
+                    <el-input type="textarea" :autosize="{minRows:3, maxRows:6}" v-model="draftForm.info"></el-input>
+                </el-form-item>
+            </el-form>
+                       <el-form >
+                           <el-form-item label="签订意见">
+                               <el-input type="textarea" :rows="3" v-model="msg"></el-input>
+                           </el-form-item>
+                       </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialog2Visible = false">取 消</el-button>
                 <el-button type="primary" @click="postMsg">确 定</el-button>
@@ -175,6 +205,8 @@ scope">
         },
         methods: {
             handleEdit(index, row) {
+                this.handleWatch(index,row);
+                this.dialog3Visible = false;
                 this.dialog2Visible = true;
                 this.index = index;
                 this.row = row;
@@ -228,6 +260,7 @@ scope">
                     this.draftForm.name = this.row.contract_name;
                     this.draftForm.customer = res.data.customer;
                     this.draftForm.start_time = res.data.start_time;
+                    this.draftForm.end_time = res.data.end_time;
                     const date = [];
                     date[0] = res.data.beginTime;
                     date[1] = res.data.endTime;
@@ -253,7 +286,7 @@ scope">
                         types : 1,
                         contract_name : this.row.contract_name,
                         user_name : this.$store.state.userName,
-                        content : '签订通过',
+                        content : this.msg,//'签订通过',
                         token: this.$store.state.token,
                         id: this.row.id,
                     },

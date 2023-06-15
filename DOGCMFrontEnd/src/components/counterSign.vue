@@ -62,13 +62,13 @@ scope">
 
         <el-dialog title="确认会签" :visible.sync="dialog2Visible" append-to-body>
 
-<!--            <el-form >-->
-<!--                <el-form-item label="定稿意见">-->
-<!--                    <el-input type="textarea" :rows="3" v-model="msg"></el-input>-->
-<!--                </el-form-item>-->
-<!--            </el-form>-->
+           <el-form >
+               <el-form-item label="会签意见">
+                   <el-input type="textarea" :rows="3" v-model="msg"></el-input>
+               </el-form-item>
+           </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="dialog2Visible = false">拒 绝</el-button>
+                <el-button @click="dialog2Visible = false">取 消</el-button>
                 <el-button type="primary" @click="postMsg()">确 定</el-button>
             </div>
         </el-dialog>
@@ -371,7 +371,7 @@ scope">
                         types : 1, //1
                         user_name : this.$store.state.userName,
                         contract_name : this.row.contract_name,
-                        content:" xxx",
+                        content:this.msg,//" xxx",
                         token: this.$store.state.token,
                         id: this.row.id,
                     },

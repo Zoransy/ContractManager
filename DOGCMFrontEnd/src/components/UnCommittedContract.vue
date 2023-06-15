@@ -59,7 +59,7 @@ scope">
         <el-dialog title="定稿意见" :visible.sync="dialog2Visible" append-to-body>
 
             <el-form >
-                <el-form-item label="意见详情:">
+                <el-form-item label="修改内容:">
                     <el-input type="textarea" :rows="3" v-model="msg"></el-input>
                 </el-form-item>
             </el-form>
