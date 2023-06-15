@@ -173,6 +173,10 @@ export default {
         }],
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       });
+      this.dialog2Visible = false;
+      this.$alert{
+
+      }
     },
 
     closeDlg() {
