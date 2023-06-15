@@ -22,7 +22,11 @@ def distribute_role_click(request):
     if request.method == 'POST':
 
         # user_name = request.POST['user_name']
-
+        user_name = request.POST.get('user_name')
+        right = 0
+        if user_name == 'admin':
+            right = 1
+        response['right'] = right
         user_package = []
 
         # user_ID_list = []

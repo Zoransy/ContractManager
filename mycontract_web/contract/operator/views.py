@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from contract.models import Contract, Customer, File, User, CounterSign, Approve, Sign, Log
+from contract.models import Contract, Customer, File, User, CounterSign, Approve, Sign, Log, HaveAuthority
 from contract.methods.method import send, check
 
 headers = {
@@ -15,6 +15,16 @@ def draft(request):
     response = {**headers}
     types = int(request.POST.get('types'))
     if types == 0 :
+        user_name = request.POST.get('user_name')
+        user_id = User.objects.filter(name=user_name).first().id
+        row = HaveAuthority.objects.filter(user_id=user_id).all()
+        right = 0
+        for i in row:
+            if i.right_id == 3:
+                right = 1
+                break
+        response['right'] = right
+
         customer_set = []
         query_set = Customer.objects.all()
         for customer in query_set:
