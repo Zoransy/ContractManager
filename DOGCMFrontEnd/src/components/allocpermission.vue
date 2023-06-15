@@ -10,12 +10,8 @@
       </el-table-column>
 
       <el-table-column
-          label="合同名称"
-          prop="contract_name">
-      </el-table-column>
-      <el-table-column
-          label="起草时间"
-          prop="date">
+          label="用户名称"
+          prop="user_name">
       </el-table-column>
       <el-table-column
           align="right">
