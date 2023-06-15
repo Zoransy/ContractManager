@@ -277,6 +277,9 @@ scope">
                     console.log("1",counterData);
                     // eslint-disable-next-line no-console
                     console.log("2",approveData);
+                    this.signData = signData;
+                    this.counterData = counterData;
+                    this.approveData = approveData;
                     return perData;
                 };
 

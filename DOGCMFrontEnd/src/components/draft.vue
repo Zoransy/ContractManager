@@ -41,7 +41,7 @@
 
           <el-form-item label="提交合同" prop="info">
             <el-input type="file" @change="handleFileChange"></el-input>
-            <!-- :autosize="{minRows:3, maxRows:6}" v-model="draftForm.info" -->
+            <!-- :autosize="{minRows:3, maxRows:6}" ($event)v-model="draftForm.info" -->
           </el-form-item>
 
 
@@ -167,8 +167,10 @@
         },
 
         methods: {
-            handleFileChange(event) {
+            handleFileChange(event) {//event +
                 // 获取用户选择的文件
+                //window.console.log("handleFileChange="+this.file.$refs.files[0]);
+                window.console.log("handleFileChange="+event.target.files[0]);
                 const file = event.target.files[0];
                 // 将文件保存在组件的 data 中，以便上传时使用
                 this.draftForm.file_name = file;
@@ -230,9 +232,9 @@
 
                 this.$refs["draftForm"].validate((valid) => {
                     if (valid) {
-
+                        window.console.log("receive: "+this.draftForm.file_name )
                         // eslint-disable-next-line no-console
-                        console.log(this.draftForm+this.draftForm.customer);
+                        //console.log(this.draftForm+this.draftForm.customer);
                         this.$axios({
                             url: this.$url + "/operator/draft",
                             // url:this.$url + "/contract/addContract",
