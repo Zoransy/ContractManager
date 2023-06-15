@@ -6,7 +6,7 @@
       </div>
 
       <div>
-        <el-form ref="draftForm" :model="draftForm" :rules="rule" label-position="left" label-width="85px">
+        <el-form ref="draftForm" :model="draftForm" :rules="rule" label-position="left" label-width="85px" :disabled = 'isdisabled'>
           <el-form-item label="合同名称:" prop="name">
             <el-input v-model="draftForm.contract_name"></el-input>
           </el-form-item>
@@ -87,6 +87,7 @@
                     method: 'post',
                     data: {
                         types: 0,
+                        user_name : this.$store.state.userName,
                         token: this.$store.state.token,
                     },
                     transformRequest: [function (data) {
@@ -108,7 +109,11 @@
                             label: item,
                             index: index
                         });
-                        //window.console.log("Reci Customer2"+ data[0].value)
+                        window.console.log("Right:"+ res.data.right);
+                        if(res.data.right === 0){
+                            this.isdisabled = true;
+                        }
+                        window.console.log("Reci Customer2"+ data[0].value)
                     })
                 });
 
@@ -127,6 +132,7 @@
                     start_time:'',
                     end_time:'',
                     content:'',
+                    isdisabled : false,
                     user_name:this.$store.userName,
                     file_name:'',
                     // name: '',

@@ -3,6 +3,7 @@
         <el-table
                 :data="tableData.filter(data => !search ||
                 data.contract_name.toLowerCase().includes(search.toLowerCase()))"
+                height='500'
                 style="width: 100%">
             <el-table-column
                     label="序号"

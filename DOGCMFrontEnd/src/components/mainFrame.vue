@@ -29,29 +29,23 @@
         <el-submenu class="main-submenu" index="4">
           <template slot="title">合同签订</template>
           <el-menu-item index="sign">待签订合同</el-menu-item>
-          <el-menu-item index="isSign">已签订合同</el-menu-item>
         </el-submenu>
 
         <el-submenu class="main-submenu" index="3">
           <template slot="title">合同审批</template>
           <el-menu-item index="watchContract">待审批合同</el-menu-item>
-          <el-menu-item index="isWatch">已审批合同</el-menu-item>
         </el-submenu>
 
         <el-submenu class="main-submenu" index="2">
           <template slot="title">合同会签</template>
           <el-menu-item index="counterSign">待会签合同</el-menu-item>
-          <el-menu-item index="iscounterSign">已会签合同</el-menu-item>
         </el-submenu>
 
         <el-submenu class="main-submenu" index="/mainFrame">
           <template slot="title">合同起草</template>
           <el-menu-item index="draft" >起草合同</el-menu-item>
           <el-menu-item index="uncommitted">待定稿合同</el-menu-item>
-          <el-menu-item >已定稿合同</el-menu-item>
-          <el-menu-item index="1-1">流程查询合同</el-menu-item>
         </el-submenu>
-
       </el-menu>
     </el-header>
 

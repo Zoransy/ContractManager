@@ -46,7 +46,8 @@
                     :data="data"
                     :titles="['操作员', '管理员']"
                     class="main-transfer"
-                    @change="handleChange">
+                    @change="handleChange"
+                    >
 <!--                <el-button class="transfer-footer el-icon-minus" slot="left-footer" size="small" circle></el-button>-->
 <!--                <el-button class="transfer-footer el-icon-plus" slot="left-footer" size="small" circle></el-button>-->
 
@@ -72,6 +73,7 @@
                     method: 'post',
                     data: {
                         token: this.$store.state.token,
+                        user_name : this.$store.state.userName,
                     },
                     transformRequest: [function (data) {
                         let ret = '';
@@ -83,16 +85,24 @@
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(res => {
                     this.loadData(res);
-                    window.console.log(res.data);
+                    var isdisabled = false;
+                    window.console.log("right:"+res.data.right);
                     res.data.item.forEach((item) => {
+                        if(res.data.right === 0){
+                            isdisabled = true;
+                        }
+        
                         data.push({
                             label: item.user_name,
                             key: item.user_ID,
                             // pinyin: pinyin[index]
+                            disabled: isdisabled,
                         });
                         if (item.user_RoleID === 2) {
                             this.value.push(item.user_ID);
                         }
+
+                        
                     })
                     window.console.log("data:"+ data[0].label+data[0].key);
                 });

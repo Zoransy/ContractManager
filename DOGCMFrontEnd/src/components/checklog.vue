@@ -3,6 +3,7 @@
     <el-table
         :data="tableData.filter(data => !search ||
                 data.contract_name.toLowerCase().includes(search.toLowerCase()))"
+        height="500"
         style="width: 100%">
       <el-table-column
           label="序号"
@@ -23,81 +24,9 @@
           prop="behaviour">
       </el-table-column>
 
-      <!-- <el-table-column
-          align="right">
-        <template slot="header" slot-scope="
-/* eslint-disable vue/no-unused-vars */
-scope">
-          <el-input
-              v-model="search"
-              size="mini"
-              placeholder="输入关键字搜索"/>
-        </template>
-        <template slot-scope="scope">
-          <el-button
-              size="mini"
-              @click="handleEdit(scope.$index, scope.row)">分配合同
-          </el-button>
-        </template>
-      </el-table-column> -->
     </el-table>
 
-    <!-- <el-dialog @close="closeDlg" title="分配合同" :visible.sync="dialog2Visible" append-to-body>
-      <el-container direction="vertical">
-        <el-container>
-          <el-header>分配会签人</el-header>
-          <el-main>
-            <el-transfer
-                filterable
-                filter-placeholder="请输入用户名"
-                v-model="commitValue"
-                :data="counterData"
-                :titles="['待分配人员', '已分配人员列表']"
-                class="main-transfer"
-                disabled="toLeftDisable">
-            </el-transfer>
-          </el-main>
-        </el-container>
-
-        <el-container>
-          <el-header>分配审批人</el-header>
-          <el-main>
-            <el-transfer
-                filterable
-                filter-placeholder="请输入用户名"
-                v-model="watchValue"
-                :data="approveData"
-                :titles="['待分配人员', '已分配人员列表']"
-                class="main-transfer">
-            </el-transfer>
-          </el-main>
-        </el-container>
-
-        <el-container>
-          <el-header>分配签订人</el-header>
-          <el-main>
-            <el-transfer
-                filterable
-                filter-placeholder="请输入用户名"
-                v-model="signValue"
-                :data="signData"
-                :titles="['待分配人员', '已分配人员列表']"
-                class="main-transfer">
-
-            </el-transfer>
-          </el-main>
-        </el-container>
-        <el-row>
-          <el-col :span="15">
-            <el-button type="primary" @click="sendData">确定</el-button>
-          </el-col>
-
-          <el-col :span="9">
-            <el-button @click="closeDlg">取消</el-button>
-          </el-col>
-        </el-row>
-      </el-container>
-    </el-dialog> -->
+   
   </div>
 </template>
 

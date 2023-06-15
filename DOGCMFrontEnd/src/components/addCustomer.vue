@@ -42,7 +42,7 @@
 
     export default {
         mounted(){
-            alert(this.$url + "/customer/addCustomer");
+            //alert(this.$url + "/customer/addCustomer");
         },
         name: "addCustomer",
         data() {
@@ -77,7 +77,7 @@
 
                 this.$refs["cusForm"].validate((valid) => {
                     if (valid) {
-                        alert("tianjia"+this.$url + "/customer/addCustomer"+this.cusForm.name)
+                        //alert("tianjia"+this.$url + "/customer/addCustomer"+this.cusForm.name)
                         this.$axios({
                             // url: this.$url + "/customer/addCustomer",
                             url:this.$url + '/add/customer',
