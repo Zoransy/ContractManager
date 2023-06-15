@@ -49,8 +49,8 @@ scope">
                 :data="permissionData"
                 :titles="['待分配人员', '已分配人员列表']"
                 class="main-transfer"
+                disabled="toLeftDisable"
                 @change="changeCommit">
-
             </el-transfer>
           </el-main>
         </el-container>
@@ -86,6 +86,15 @@ scope">
             </el-transfer>
           </el-main>
         </el-container>
+        <el-row>
+          <el-col :span="15">
+            <el-button type="primary" @click="sendData">确定</el-button>
+          </el-col>
+
+          <el-col :span="9">
+            <el-button @click="closeDlg">取消</el-button>
+          </el-col>
+        </el-row>
       </el-container>
     </el-dialog>
   </div>
@@ -154,13 +163,28 @@ scope">
 
 
         methods: {
+            sendData(){
+              window.console.log("hhh");
+              let commituser;
+              let signuser;
+              let watchuser;
+              commituser = [];
+              signuser = [];
+              watchuser = [];
+              commituser = this.commitValue;
+              signuser = this.watchValue;
+              watchuser = this.signValue;
+              window.console.log("commit: "+commituser);
+              window.console.log("signuser: "+signuser);
+              window.console.log("watchuser: "+ watchuser);
+            },
 
             closeDlg() {
                 this.permissionData = [];
                 this.commitValue = [];
                 this.watchValue = [];
                 this.signValue = [];
-
+                this.dialog2Visible = false;
                 // eslint-disable-next-line no-console
                 console.log(this.permissionData);
             },
