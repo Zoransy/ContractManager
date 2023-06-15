@@ -11,13 +11,19 @@
 
       <el-table-column
           label="合同名称"
-          prop="contract_name">
+          prop="name">
       </el-table-column>
       <el-table-column
-          label="起草时间"
-          prop="date">
+          label="修改时间"
+          prop="time">
       </el-table-column>
-      <el-table-column
+
+    <el-table-column
+          label="操作"
+          prop="behaviour">
+      </el-table-column>
+
+      <!-- <el-table-column
           align="right">
         <template slot="header" slot-scope="
 /* eslint-disable vue/no-unused-vars */
@@ -33,10 +39,10 @@ scope">
               @click="handleEdit(scope.$index, scope.row)">分配合同
           </el-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
 
-    <el-dialog @close="closeDlg" title="分配合同" :visible.sync="dialog2Visible" append-to-body>
+    <!-- <el-dialog @close="closeDlg" title="分配合同" :visible.sync="dialog2Visible" append-to-body>
       <el-container direction="vertical">
         <el-container>
           <el-header>分配会签人</el-header>
@@ -91,7 +97,7 @@ scope">
           </el-col>
         </el-row>
       </el-container>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 
@@ -106,10 +112,10 @@ scope">
                 const data = [];
 
                 this.$axios({
-                    url: this.$url + "/manager/display/search",/*ByProcess*/
+                    url: this.$url + "/manager/checkLog",/*ByProcess*/
                     method: 'post',
                     data: {
-                        types : 1,
+                        types : 0,
                         token: this.$store.state.token,
                         process: 1
                     },
@@ -122,12 +128,15 @@ scope">
                     }],
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(res => {
-                    res.data.contracts.forEach((item, index) => {
+                    res.data.logs.forEach((item, index) => {
                         data.push({
+                            name:item.name,
+                            time:item.time,
+                            behaviour:item.behaviour,
                             index: index + 1,
-                            date: item.beginTime,
-                            contract_name: item.name,
-                            id: item.id
+                            // date: item.beginTime,
+                            // contract_name: item.name,
+                            // id: item.id
                         })
                     })
                 })

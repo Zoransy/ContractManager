@@ -271,7 +271,7 @@ scope">
                         // });
 
                         // this.tableData = data;
-                        this.tableData.splice(this.index, this.row.index)
+                        this.tableData.splice(this.index, 1);
                         this.$notify({
                             title: '成功',
                             message: '审批成功！',

@@ -74,6 +74,16 @@ export default new Router({
                     name: '分配权限',
                     component: () => import('./components/allocpermission.vue'),
                 },
+                {
+                    path: 'process',
+                    name: '查看合同进度',
+                    component: () => import('./components/process.vue'),
+                },
+                {
+                    path: 'checklog',
+                    name: '查看操作日志',
+                    component: () => import('./components/checklog.vue'),
+                },
             ]
         },
         {

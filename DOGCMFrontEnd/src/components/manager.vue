@@ -25,7 +25,12 @@
               <el-menu-item class="main-submenu" index="allocpermission">
                 <template slot="title">分配权限</template>
               </el-menu-item>
-
+                <el-menu-item class="main-submenu" index="process">
+                <template slot="title">查看合同进度</template>
+              </el-menu-item>
+              <el-menu-item class="main-submenu" index="checklog">
+                <template slot="title">查看操作日志</template>
+              </el-menu-item>
             </el-menu>
         </el-header>
 

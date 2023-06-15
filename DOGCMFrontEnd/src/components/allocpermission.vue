@@ -78,10 +78,10 @@ export default {
       const data = [];
 
       this.$axios({
-        url: this.$url + "/manager/display/search",/*ByProcess*/
+        url: this.$url + "/manager/operators",/*ByProcess*/
         method: 'post',
         data: {
-          types : 1,
+          types : 0,
           token: this.$store.state.token,
           process: 1
         },
@@ -94,11 +94,11 @@ export default {
         }],
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).then(res => {
-        res.data.contracts.forEach((item, index) => {
+        res.data.operators.forEach((item, index) => {
           data.push({
             index: index + 1,
-            date: item.beginTime,
-            contract_name: item.name,
+            //date: item.beginTime,
+            user_name: item.name,
             id: item.id
           })
         })
@@ -155,7 +155,7 @@ export default {
   methods: {
     sendData(){
       this.$axios({
-        url: this.$url + "/manager/display/distribute",
+        url: this.$url + "/manager/contribute",
         method: 'post',
         data: {
           types : 1,
@@ -174,9 +174,14 @@ export default {
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       });
       this.dialog2Visible = false;
-      this.$alert{
-
-      }
+      //this.permissionData1 = [];
+      this.permissionValue = [];
+      //this.permissionData1 = generatePermission();
+      this.$notify({
+          title: '成功',
+          message: '分配权限成功！',
+          type: "success"
+      })
     },
 
     closeDlg() {
@@ -184,6 +189,9 @@ export default {
       this.commitValue = [];
       this.watchValue = [];
       this.signValue = [];
+      //this.permissionData1 = [];
+      this.permissionValue = [];
+      //this.permissionData1 = generatePermission();
       this.dialog2Visible = false;
       // eslint-disable-next-line no-console
       //console.log(this.permissionData);

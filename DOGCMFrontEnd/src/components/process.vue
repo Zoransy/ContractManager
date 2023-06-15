@@ -13,11 +13,23 @@
           label="合同名称"
           prop="contract_name">
       </el-table-column>
+
       <el-table-column
           label="起草时间"
-          prop="date">
+          prop="start_time">
       </el-table-column>
+
+        <el-table-column
+          label="结束时间"
+          prop="end_time">
+      </el-table-column>
+
       <el-table-column
+          label="合同状态"
+          prop="state">
+      </el-table-column>
+
+      <!-- <el-table-column
           align="right">
         <template slot="header" slot-scope="
 /* eslint-disable vue/no-unused-vars */
@@ -33,10 +45,10 @@ scope">
               @click="handleEdit(scope.$index, scope.row)">分配合同
           </el-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
 
-    <el-dialog @close="closeDlg" title="分配合同" :visible.sync="dialog2Visible" append-to-body>
+    <!-- <el-dialog @close="closeDlg" title="分配合同" :visible.sync="dialog2Visible" append-to-body>
       <el-container direction="vertical">
         <el-container>
           <el-header>分配会签人</el-header>
@@ -91,7 +103,7 @@ scope">
           </el-col>
         </el-row>
       </el-container>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 
@@ -106,7 +118,7 @@ scope">
                 const data = [];
 
                 this.$axios({
-                    url: this.$url + "/manager/display/search",/*ByProcess*/
+                    url: this.$url + "/manager/checkContractState",/*ByProcess*/
                     method: 'post',
                     data: {
                         types : 1,
@@ -123,11 +135,26 @@ scope">
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(res => {
                     res.data.contracts.forEach((item, index) => {
+                        this.message = '待分配'
+                        if (item.state === 0) {
+                            this.message = '待会签';
+                        } else if (item.state === 1) {
+                            this.message = '待定稿'
+                        } else if (item.state === 2) {
+                            this.message = '待审批'
+                        } else if (item.state === 3) {
+                            this.message = '待签订'
+                        } else {
+                            this.message = '已完成'
+                        }
                         data.push({
                             index: index + 1,
                             date: item.beginTime,
                             contract_name: item.name,
-                            id: item.id
+                            start_time: item.start_time,
+                            end_time: item.end_time,
+                            id: item.id,
+                            state:this.message,//item.state,
                         })
                     })
                 })
@@ -137,6 +164,7 @@ scope">
 
 
             return {
+                message:'',
                 search: '',
                 tableData: generateData(),
                 dialogVisible: false,
