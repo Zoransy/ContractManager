@@ -11,9 +11,9 @@ const contracts = Mock.mock({
 })
 
 // 拦截请求并返回模拟数据
-Mock.mock("http://localhost:10087/contract/selectContractByType", 'post', (options) => {
+Mock.mock("http://localhost:10087/manager/display/search", 'post', (options) => {
     // 解析请求参数 查看user的全部（某一项)合同
-    //alert("后端响应/contract/selectContractByType")
+    alert("后端响应/contract/selectContractByType")
     
     const params = new URLSearchParams(options.body)
     const matter = params.get('matter')

@@ -55,7 +55,7 @@ Mock.mock('http://localhost:10087/user/login', 'post', (options) => {
         // 返回登录成功的数据，并设置用户组为1（管理员）
         return {
             ...loginSuccess,
-            group: 1,
+            group: 2,
             // 添加响应头
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -67,7 +67,7 @@ Mock.mock('http://localhost:10087/user/login', 'post', (options) => {
         // 返回登录成功的数据，并设置用户组为0（普通用户）
         return {
             ...loginSuccess,
-            group: 0,
+            group: 1,
             // 添加响应头
             headers: {
                 'Access-Control-Allow-Origin': '*',
