@@ -40,7 +40,7 @@
           </el-form-item>
 
           <el-form-item label="提交合同" prop="info">
-            <el-input type="file" @change="handleFileChange"></el-input>
+            <input type="file" name="file" ref="fileInput" @change="handleFileChange" />
             <!-- :autosize="{minRows:3, maxRows:6}" ($event)v-model="draftForm.info" -->
           </el-form-item>
 
@@ -134,7 +134,8 @@
                     content:'',
                     isdisabled : false,
                     user_name:this.$store.userName,
-                    file_name:'',
+                    file_name:null,
+                    filedename:'',
                     // name: '',
                     // userName: '',
                     // file:'',
@@ -175,11 +176,16 @@
         methods: {
             handleFileChange(event) {//event +
                 // 获取用户选择的文件
-                //window.console.log("handleFileChange="+this.file.$refs.files[0]);
+                // window.console.log("handleFileChange="+this.file.$refs.files[0]);
+                window.console.log("handleFileChange=");
                 window.console.log("handleFileChange="+event.target.files[0]);
-                const file = event.target.files[0];
+                this.draftForm.filedename = event.target.files[0].name;
+                this.draftForm.file_name = event.target.files[0];
+                new Blob([event.target.files[0]]);
+                // const file = event.target.files[0];
+                
                 // 将文件保存在组件的 data 中，以便上传时使用
-                this.draftForm.file_name = file;
+                // this.draftForm.file_name = file;
             },
 
             resetContract() {
@@ -255,7 +261,7 @@
                                 end_time: this.draftForm.date[1],
                                 content: this.draftForm.content,
                                 user_name:this.$store.state.userName ,//userName this.draftForm.
-                                file_name:this.draftForm.file
+                                file_name:this.draftForm.filedename,
                                 
                             },
                             transformRequest: [function (data) {
@@ -287,10 +293,58 @@
                             // eslint-disable-next-line no-console
                             console.log(res);
                         })
+
+                        //传文件
+                        let formData = new FormData();
+                        formData.append('file',this.draftForm.file_name);
+                        formData.append('contract_name',this.draftForm.contract_name);
+                        this.$axios({
+                            url: this.$url + "/file/file_upload",
+                            // url:this.$url + "/contract/addContract",
+                            method: 'post',
+                            data: 
+                                formData
+                                // types:1,
+                                // token: this.$store.state.token,
+                                // contract_name: this.draftForm.contract_name,
+                                // user_name:this.$store.state.userName ,//userName this.draftForm.
+                                // file_name:this.draftForm.filedename,
+                                
+                            ,
+                            // transformRequest: [function (data) {
+                            //     let ret = '';
+                            //     for (let it in data) {
+                            //         ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                            //     }
+                            //     return ret
+                            // }],
+                            // headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                            headers: {'Content-Type': 'multipart/form-data'}
+                        }).then(res => {
+
+                            // if (res.data.state === 0) {
+                            //     this.$notify({
+                            //         title: '成功',
+                            //         message: '成功添加合同！',
+                            //         type: "success"
+                            //     })
+
+                            //     this.draftForm = this.cleanJson(this.draftForm)
+                            // }
+                            // if (res.data.state === -1) {
+                            //     this.$notify({
+                            //         title: '失败',
+                            //         message: '添加合同失败！',
+                            //         type: "error"
+                            //     })
+                            // }
+                            // eslint-disable-next-line no-console
+                            console.log(res);
+                        })
                     } else {
                         this.$notify({
                             title: '失败',
-                            message: '提交失败！',
+                            message: '文件提交失败！',
                             type: "error"
                         })
                     }

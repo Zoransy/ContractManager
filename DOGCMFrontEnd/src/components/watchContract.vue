@@ -86,7 +86,12 @@ scope">
                 </el-form-item>
 
                 <el-form-item label="合同内容" prop="info">
+                    <!-- <el-button @click="DownFile">下载附件</el-button> -->
                     <el-input type="textarea" :autosize="{minRows:3, maxRows:6}" v-model="draftForm.info"></el-input>
+                </el-form-item>
+                <el-form-item label="下载合同" prop="info">
+                    <el-button @click="DownFile">下载附件</el-button>
+                    <!-- <el-input type="textarea" :autosize="{minRows:3, maxRows:6}" v-model="draftForm.info"></el-input> -->
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -159,6 +164,9 @@ scope">
             }
         },
         methods: {
+            DownFile(){
+                window.open(this.$url + "/file/file_download" + "?contract_name=" + this.row.contract_name, '_self');
+            },
             handleEdit(index, row) {
                 this.dialog2Visible = true;
                 this.index = index;
