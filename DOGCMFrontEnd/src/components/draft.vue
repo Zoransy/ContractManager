@@ -112,6 +112,11 @@
                         window.console.log("Right:"+ res.data.right);
                         if(res.data.right === 0){
                             this.isdisabled = true;
+                          this.$notify({
+                            title: '失败',
+                            message: '您没有该权限！',
+                            type: "failed"
+                          })
                         }
                         window.console.log("Reci Customer2"+ data[0].value)
                     })
