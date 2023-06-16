@@ -23,7 +23,7 @@ from contract.operator.views import *
 from contract.cust.views import *
 
 from contract.role.views import *
-
+from contract.file.views import *
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -58,5 +58,8 @@ urlpatterns = [
     path('role/distribute_change_left_to_right', distribute_role_change_left_to_right),
     path('role/distribute_change_right_to_left', distribute_role_change_right_to_left),
     
-    # path('alloc/alloc_all_cotracts', alloc_all_cotracts),
+    #传递文件
+    path('file/file_upload', file_upload),
+    path('file/file_download', file_download),
+    
 ]

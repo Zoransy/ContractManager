@@ -40,6 +40,7 @@ def draft(request):
         content = request.POST.get('content')
         file_name = request.POST.get('file_name')
         user_name = request.POST.get('user_name')
+        File.objects.create(fileName=file_name)
 
         row = Contract.objects.filter(name=contract_name).first()
         if row != None:
@@ -49,20 +50,19 @@ def draft(request):
 
             qeury_user = User.objects.filter(name=user_name).first()
 
-            # query_file = File.objects.filter(fileName=file_name).first()
+            query_file = File.objects.filter(fileName=file_name).first()
     
             qeury_customer = Customer.objects.filter(name=customer_name).first()
-            print(customer_name)
-            print(user_name)
+            # print(customer_name)
+            # print(user_name)
             Log.objects.create(user_id=qeury_user.id, behaviour='起草了《%s》合同'%(contract_name))
 
-            # file_id=query_file.id,
             Contract.objects.create(name=contract_name,
                                     start_time=start_time,
                                     end_time=end_time,
                                     content=content,
                                     customer_id=qeury_customer.id,
-                                    file_id = 1,
+                                    file_id=query_file.id,
                                     user_id=qeury_user.id)
             
         
