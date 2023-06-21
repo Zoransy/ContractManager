@@ -21,11 +21,12 @@ pass pass
 1.1 起草前
 > url = operator/draft
 request method = **get** 00
-我会传给：customers: []代表着所有客户的名字
+前端：types : 0
+我会传给：customers: []代表着所有客户的名字，
 
 > url = operator/draft
 request method = **post**
-前端需要传给我：contract_name : , customer :, start_time ; , end_time : , content : , file_name : (暂时不用管), user_name :,
+前端需要传给我：contract_name : , customer :, start_time ; , end_time : , content : , file_name : (暂时不用管), user_name :,types : 1
 我会传回：state : 0（成功）, 1(失败，合同的名字不能重复)
 2.1 前端传递
 data: {
